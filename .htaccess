@@ -1,0 +1,14 @@
+RewriteEngine On
+RewriteBase /
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+RewriteRule ^controllers/ - [F,L]
+RewriteRule ^models/ - [F,L]
+RewriteRule ^views/ - [F,L]
+
+RewriteRule "^\.git" - [F,L,NC]
+
+ErrorDocument 403 /index.php

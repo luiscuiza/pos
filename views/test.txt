@@ -1,0 +1,24 @@
+<!-- HEAD CSS -->
+<?php ob_start(); ?>
+    <link>
+    <style></style>
+<?php $headCss = ob_get_clean(); ?>
+<!-- HEAD JS -->
+<?php ob_start(); ?>
+    <script></script>
+<?php $headJs = ob_get_clean(); ?>
+<!-- BODY CSS -->
+<?php ob_start(); ?>
+    <link>
+    <style></style>
+<?php $bodyCss = ob_get_clean(); ?>
+<!-- BODY JS -->
+<?php ob_start(); ?>
+    <script></script>
+<?php $bodyJs = ob_get_clean(); ?>
+
+<!-- CONTENT -->
+<section class="content p-4">
+    <div class="container-fluid">
+    </div>
+</section>
