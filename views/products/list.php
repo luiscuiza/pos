@@ -9,7 +9,7 @@
 <!-- BODY JS -->
 <?php ob_start(); ?>
     <?php include 'views/layout/ListJs.php'; ?>
-    <script src="/assets/js/products.js"></script>
+    <script src="/assets/js/crud.js"></script>
     <?php include 'views/layout/TableConfig.php'; ?>
 <?php $bodyJs = ob_get_clean(); ?>
 
@@ -21,7 +21,7 @@
                     <div class="card-header">
                         <h1 class="card-title fw-bold mt-2">Productos</h1>
                         <div class="text-right">
-                            <button class="btn btn-primary" onclick="showNewProduct()">
+                            <button class="btn btn-primary" onclick="showForm('products','new')">
                                 <i class="fas fa-box-open"></i> Nuevo Producto
                             </button>
                         </div>
@@ -63,8 +63,8 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showEditProduct(<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="showRemoveProduct(<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('products','edit',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

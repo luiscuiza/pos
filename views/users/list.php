@@ -9,7 +9,7 @@
 <!-- BODY JS -->
 <?php ob_start(); ?>
     <?php include 'views/layout/ListJs.php'; ?>
-    <script src="/assets/js/users.js"></script>
+    <script src="/assets/js/crud.js"></script>
     <?php include 'views/layout/TableConfig.php'; ?>
 <?php $bodyJs = ob_get_clean(); ?>
 
@@ -21,7 +21,7 @@
                     <div class="card-header">
                         <h1 class="card-title fw-bold mt-2">Usuarios</h1>
                         <div class="text-right">
-                            <button class="btn btn-primary" onclick="showNewUser()">
+                            <button class="btn btn-primary" onclick="showForm('users','new')">
                                 <i class="fas fa-user-plus"></i> Nuevo Usuario </button>
                         </div>
                     </div>
@@ -54,8 +54,8 @@
                                             <td><?= htmlspecialchars($user['fecha_registro']) ?></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showEditUser(<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="showRemoveUser(<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('users','edit',<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('users',<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

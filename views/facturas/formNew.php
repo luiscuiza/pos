@@ -1,4 +1,4 @@
-<div class="modal fade" id="newFacturaDialog" tabindex="-1" role="dialog" aria-labelledby="newFacturaTitle" aria-hidden="true">
+<div class="modal fade" id="facturas-new-dialog" tabindex="-1" role="dialog" aria-labelledby="newFacturaTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -176,7 +176,7 @@
 <script>
     $.validator.setDefaults({
         submitHandler: function() {
-            registerFactura();
+            saveRecord('facturas','add','reg-factura');
         }
     });
     $(function() {

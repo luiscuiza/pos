@@ -9,7 +9,7 @@
 <!-- BODY JS -->
 <?php ob_start(); ?>
     <?php include 'views/layout/ListJs.php'; ?>
-    <script src="/assets/js/customer.js"></script>
+    <script src="/assets/js/crud.js"></script>
     <?php include 'views/layout/TableConfig.php'; ?>
 <?php $bodyJs = ob_get_clean(); ?>
 
@@ -21,7 +21,7 @@
                     <div class="card-header">
                         <h1 class="card-title fw-bold mt-2">Clientes</h1>
                         <div class="text-right">
-                            <button class="btn btn-primary" onclick="showNewCustomer()">
+                            <button class="btn btn-primary" onclick="showForm('customers','new')">
                                 <i class="fas fa-user-plus"></i> Nuevo Cliente 
                             </button>
                         </div>
@@ -51,8 +51,8 @@
                                             <td><?= htmlspecialchars($customer['email']) ?></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showEditCustomer(<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="showRemoveCustomer(<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('customers','edit',<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('customers',<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
