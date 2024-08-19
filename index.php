@@ -3,12 +3,14 @@
 require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
 require_once 'models/CustomerModel.php';
+require_once 'models/ProductModel.php';
 
 require_once 'controllers/TemplateController.php';
 require_once 'controllers/AuthController.php';
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/CustomerController.php';
+require_once 'controllers/ProductController.php';
 require_once 'controllers/ErrorController.php';
 
 require_once 'helpers/sessions.php';
@@ -31,27 +33,36 @@ $METHOD = $_SERVER['REQUEST_METHOD'];
 if (isset($_SESSION['user_id'])) {
     $routes = [
         'GET' => [
-            '/'                   => [DashboardController::class, 'render'],
-            '/dashboard'          => [DashboardController::class, 'render'],
+            '/'                  => [DashboardController::class, 'render'],
+            '/dashboard'         => [DashboardController::class, 'render'],
 
-            '/logout'             => [AuthController::class, 'logout'],
+            '/logout'            => [AuthController::class, 'logout'],
 
-            '/users'              => [UserController::class, 'renderUsers'],
-            '/users/new'          => [UserController::class, 'renderNewForm'],
-            '/users/edit'         => [UserController::class, 'renderEditForm'],
+            '/users'             => [UserController::class, 'renderUsers'],
+            '/users/new'         => [UserController::class, 'renderNewForm'],
+            '/users/edit'        => [UserController::class, 'renderEditForm'],
 
-            '/customers'          => [CustomerController::class, 'renderCustomers'],
-            '/customers/new'      => [CustomerController::class, 'renderNewForm'],
-            '/customers/edit'     => [CustomerController::class, 'renderEditForm'],
+            '/customers'         => [CustomerController::class, 'renderCustomers'],
+            '/customers/new'     => [CustomerController::class, 'renderNewForm'],
+            '/customers/edit'    => [CustomerController::class, 'renderEditForm'],
+
+            '/products'          => [ProductController::class, 'renderProducts'],
+            '/products/new'      => [ProductController::class, 'renderNewForm'],
+            '/products/edit'     => [ProductController::class, 'renderEditForm'],
+
         ],
         'POST' => [
-            '/users/add'          => [UserController::class, 'createUser'],
-            '/users/remove'       => [UserController::class, 'removeUser'],
-            '/users/edit'         => [UserController::class, 'editUser'],
+            '/users/add'         => [UserController::class, 'createUser'],
+            '/users/remove'      => [UserController::class, 'removeUser'],
+            '/users/edit'        => [UserController::class, 'editUser'],
 
-            '/customers/add'      => [CustomerController::class, 'createCustomer'],
-            '/customers/edit'     => [CustomerController::class, 'editCustomer'],
-            '/customers/remove'   => [CustomerController::class, 'removeCustomer'],
+            '/customers/add'     => [CustomerController::class, 'createCustomer'],
+            '/customers/edit'    => [CustomerController::class, 'editCustomer'],
+            '/customers/remove'  => [CustomerController::class, 'removeCustomer'],
+
+            '/products/add'      => [ProductController::class, 'createProduct'],
+            '/products/edit'     => [ProductController::class, 'editProduct'],
+            '/products/remove'   => [ProductController::class, 'removeProduct'],
         ]
     ]; 
 
