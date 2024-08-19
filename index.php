@@ -4,14 +4,16 @@ require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
 require_once 'models/CustomerModel.php';
 require_once 'models/ProductModel.php';
+require_once 'models/FacturaModel.php';
 
 require_once 'controllers/TemplateController.php';
+require_once 'controllers/ErrorController.php';
 require_once 'controllers/AuthController.php';
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/CustomerController.php';
 require_once 'controllers/ProductController.php';
-require_once 'controllers/ErrorController.php';
+require_once 'controllers/FacturaController.php';
 
 require_once 'helpers/sessions.php';
 
@@ -50,6 +52,10 @@ if (isset($_SESSION['user_id'])) {
             '/products/new'      => [ProductController::class, 'renderNewForm'],
             '/products/edit'     => [ProductController::class, 'renderEditForm'],
 
+            '/facturas'          => [FacturaController::class, 'renderFacturas'],
+            '/facturas/new'      => [FacturaController::class, 'renderNewForm'],
+            '/facturas/edit'     => [FacturaController::class, 'renderEditForm'],
+
         ],
         'POST' => [
             '/users/add'         => [UserController::class, 'createUser'],
@@ -63,6 +69,10 @@ if (isset($_SESSION['user_id'])) {
             '/products/add'      => [ProductController::class, 'createProduct'],
             '/products/edit'     => [ProductController::class, 'editProduct'],
             '/products/remove'   => [ProductController::class, 'removeProduct'],
+
+            '/facturas/add'      => [FacturaController::class, 'createFactura'],
+            '/facturas/edit'     => [FacturaController::class, 'editFactura'],
+            '/facturas/remove'   => [FacturaController::class, 'removeFactura'],
         ]
     ]; 
 

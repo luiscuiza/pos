@@ -83,14 +83,14 @@
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-shopping-cart"></i>
-                            <p>Ventas<i class="right fas fa-angle-left"></i></p>
+                            <i class="nav-icon fas fa-file-invoice"></i>
+                            <p>Facturas<i class="right fas fa-angle-left"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="/facturas" class="nav-link">
                                     <i class="fas fa-list" style="margin-right: 4px;"></i>
-                                    <span>Registros de ventas</span>
+                                    <span>Lista de facturas</span>
                                 </a>
                             </li>
                         </ul>
