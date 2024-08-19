@@ -4,13 +4,12 @@ require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
 
 require_once 'controllers/TemplateController.php';
+require_once 'controllers/AuthController.php';
 require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/ErrorController.php';
 
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
+require_once 'helpers/sessions.php';
 
 function resolveRoute(string $uri, string $method, array $routes) {
     if (isset($routes[$method])) {
@@ -31,8 +30,9 @@ if (isset($_SESSION['user_id'])) {
     $routes = [
         'GET' => [
             '/'             => [DashboardController::class, 'render'],
-            '/logout'       => [UserController::class, 'logout'],
             '/dashboard'    => [DashboardController::class, 'render'],
+
+            '/logout'       => [AuthController::class, 'logout'],
 
             '/users'        => [UserController::class, 'renderUsers'],
             '/users/new'    => [UserController::class, 'renderNewForm'],
@@ -51,10 +51,10 @@ if (isset($_SESSION['user_id'])) {
 } else {
     $routes = [
         'GET' => [
-            '/'      => [UserController::class, 'renderLoging']
+            '/'      => [AuthController::class, 'renderLoging']
         ],
         'POST' => [
-            '/login' => [UserController::class, 'login']
+            '/login' => [AuthController::class, 'login']
         ],
     ];
 
