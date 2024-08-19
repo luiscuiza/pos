@@ -3,7 +3,7 @@
 class AuthController {
 
     public static function renderLoging() {
-        TemplateController::render('./views/users/login.php');
+        TemplateController::render('./views/auth/login.php');
     }
 
     public static function login() {
