@@ -1,50 +1,16 @@
+<?php 
+    $tableID = 'customers';
+?>
 <!-- HEAD CSS -->
 <?php ob_start(); ?>
-    <link rel="stylesheet" href="/assets/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet" href="/assets/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="/assets/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="/assets/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+    <?php include 'views/layout/ListCss.php'; ?>
 <?php $headCss = ob_get_clean(); ?>
 
 <!-- BODY JS -->
 <?php ob_start(); ?>
-    <script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="/assets/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="/assets/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="/assets/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="/assets/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="/assets/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="/assets/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="/assets/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="/assets/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
-    <script src="/assets/plugins/jquery-validation/jquery.validate.min.js"></script>
-    <script src="/assets/plugins/jquery-validation/additional-methods.min.js"></script>
-    <script src="/assets/plugins/jquery-validation/localization/messages_es.js"></script>
-    <script src="/assets/plugins/sweetalert2/sweetalert2.min.js"></script>
+    <?php include 'views/layout/ListJs.php'; ?>
     <script src="/assets/js/customer.js"></script>
-    <script>
-        $(function () {
-            $("#customers").DataTable({
-                "responsive": true,
-                "lengthChange": false,
-                "autoWidth": false,
-                "buttons": [
-                    { extend: 'excel',  text: 'Excel'},
-                    { extend: 'pdf',    text: 'PDF'},
-                    { extend: 'print',  text: 'Imprimir'},
-                    { extend: 'colvis', text: 'Columnas'}
-                ],
-                "language": {
-                    "oPaginate": {
-                        "sFirst":    "<<",
-                        "sLast":     ">>",
-                        "sNext":     ">",
-                        "sPrevious": "<"
-                    }
-                }
-            }).buttons().container().appendTo('#customers_wrapper .col-md-6:eq(0)');
-        });
-    </script>
+    <?php include 'views/layout/TableConfig.php'; ?>
 <?php $bodyJs = ob_get_clean(); ?>
 
 <section class="content p-4">
@@ -61,7 +27,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table id="customers" class="table table-bordered table-striped">
+                        <table id="<?php echo $tableID ?>" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
                                     <th>Razón Social</th>
@@ -100,10 +66,3 @@
         </div>
     </div>
 </section>
-
-<div class="modal fade" tabindex="-1" role="dialog" id="modal-default">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content" id="content-default">
-        </div>
-    </div>
-</div>
