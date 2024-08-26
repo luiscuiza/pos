@@ -79,6 +79,18 @@
                                     <span>Lista de productos</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/products/catalog" class="nav-link">
+                                    <i class="fas fa-list" style="margin-right: 4px;"></i>
+                                    <span>Sincronizacion catalogos</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/products/umedsin" class="nav-link">
+                                    <i class="fas fa-list" style="margin-right: 4px;"></i>
+                                    <span>Unidad de Medidas</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">

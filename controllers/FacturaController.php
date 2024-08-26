@@ -31,6 +31,8 @@ class FacturaController {
         }
         include 'views/facturas/formEdit.php';
     }
+    
+    
 
     /* Crear una nueva factura */
     public static function createFactura() {

@@ -31,11 +31,8 @@
                             <thead>
                                 <tr>
                                     <th>Código</th>
-                                    <th>Código SIN</th>
                                     <th>Nombre</th>
                                     <th>Precio</th>
-                                    <th>Unidad de Medida</th>
-                                    <th>Unidad de Medida SIN</th>
                                     <th>Imagen</th>
                                     <th>Disponible</th>
                                     <th>Acciones</th>
@@ -46,11 +43,8 @@
                                     <?php foreach ($products as $product): ?>
                                         <tr>
                                             <td><?= htmlspecialchars($product['codigo']) ?></td>
-                                            <td><?= htmlspecialchars($product['codigo_sin']) ?></td>
                                             <td><?= htmlspecialchars($product['nombre']) ?></td>
                                             <td><?= htmlspecialchars($product['precio']) ?></td>
-                                            <td><?= htmlspecialchars($product['unidad_medida']) ?></td>
-                                            <td><?= htmlspecialchars($product['unidad_medida_sin']) ?></td>
                                             <td>
                                                 <img src="/uploads/products/<?= htmlspecialchars($product['imagen']) ?>" alt="Imagen del producto" style="width: 50px; height: 50px;">
                                             </td>
@@ -64,6 +58,7 @@
                                             <td>
                                                 <div class="btn-group" role="group">
                                                     <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('products','edit',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn edit btn-dark" onclick="showForm('products', 'view', <?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-eye"></i></a>
                                                     <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>

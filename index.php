@@ -1,5 +1,8 @@
 <?php
 
+require 'helpers/sessions.php';
+require_once 'helpers/env.php';
+
 require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
 require_once 'models/CustomerModel.php';
@@ -15,7 +18,10 @@ require_once 'controllers/CustomerController.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/FacturaController.php';
 
-require_once 'helpers/sessions.php';
+global $env;
+$env = new Environment('.env');
+$URI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
+$METHOD = $_SERVER['REQUEST_METHOD'];
 
 function resolveRoute(string $uri, string $method, array $routes) {
     if (isset($routes[$method])) {
@@ -28,9 +34,6 @@ function resolveRoute(string $uri, string $method, array $routes) {
     }
     return false;
 }
-
-$URI = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$METHOD = $_SERVER['REQUEST_METHOD'];
 
 if (isset($_SESSION['user_id'])) {
     $routes = [
@@ -51,11 +54,13 @@ if (isset($_SESSION['user_id'])) {
             '/products'          => [ProductController::class, 'renderProducts'],
             '/products/new'      => [ProductController::class, 'renderNewForm'],
             '/products/edit'     => [ProductController::class, 'renderEditForm'],
+            '/products/view'     => [ProductController::class, 'renderViewForm'],
+            '/products/catalog'  => [ProductController::class, 'renderCatalog'],
+            '/products/umedsin'  => [ProductController::class, 'renderUMSin'],
 
             '/facturas'          => [FacturaController::class, 'renderFacturas'],
             '/facturas/new'      => [FacturaController::class, 'renderNewForm'],
             '/facturas/edit'     => [FacturaController::class, 'renderEditForm'],
-
         ],
         'POST' => [
             '/users/add'         => [UserController::class, 'createUser'],

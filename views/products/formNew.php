@@ -1,5 +1,5 @@
 <div class="modal fade" id="products-new-dialog" tabindex="-1" role="dialog" aria-labelledby="newProductTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="newProductTitle">Nuevo Producto</h5>
@@ -9,106 +9,107 @@
             </div>
             <div class="modal-body">
                 <form action="" method="post" id="reg-producto" enctype="multipart/form-data">
-                    <!-- Disponible -->
-                    <div class="form-group">
-                        <label for="disponible">Disponible</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-toggle-on"></i>
-                                </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Código -->
+                            <div class="form-group">
+                                <label for="codigo">Código Producto</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-barcode"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="codigo" name="codigo" placeholder="Código del producto" required>
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center switch-container">
-                                <label class="switch my-1 px-1">
-                                    <input type="checkbox" id="disponible" name="disponible" value="1" checked onchange="toggleStatusSwitch(this, 'Disponible', 'No Disponible')">
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="status-label label-status-active">Disponible</span>
+                            <!-- Descripción -->
+                            <div class="form-group">
+                                <label for="nombre">Descripción</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-tag"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre del producto" required>
+                                </div>
+                            </div>
+                            <!-- Unidad de Medida -->
+                            <div class="form-group">
+                                <label for="unidad_medida">Unidad de Medida</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="unidad_medida" name="unidad_medida" placeholder="Unidad de Medida" required>
+                                </div>
+                            </div>
+                            <!-- Imagen -->
+                            <div class="form-group">
+                                <label for="imagen">Imagen</label>
+                                <span class="label-secondary">(Peso máximo 10MB - JPG, PNG)</span>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-image"></i>
+                                        </span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="imagen" name="imagen" accept="image/*" required>    
+                                        <label class="custom-file-label label-secondary" for="imagen">Elegir archivo</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Código -->
-                    <div class="form-group">
-                        <label for="codigo">Código</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-barcode"></i>
-                                </span>
+                        <div class="col-md-6">
+                            <!-- Código SIN -->
+                            <div class="form-group">
+                                <label for="codigo_sin">Código SIN</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-barcode"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" id="codigo_sin" name="codigo_sin" placeholder="Código SIN" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="text" id="codigo" name="codigo" placeholder="Código del producto" required>
-                        </div>
-                    </div>
-                    <!-- Código SIN -->
-                    <div class="form-group">
-                        <label for="codigo_sin">Código SIN</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-barcode"></i>
-                                </span>
+                            <!-- Precio -->
+                            <div class="form-group">
+                                <label for="precio">Precio</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" step="0.01" id="precio" name="precio" placeholder="Precio" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="number" id="codigo_sin" name="codigo_sin" placeholder="Código SIN" required>
-                        </div>
-                    </div>
-                    <!-- Nombre -->
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-tag"></i>
-                                </span>
+                            <!-- Unidad de Medida SIN -->
+                            <div class="form-group">
+                                <label for="unidad_medida_sin">Unidad de Medida SIN</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" id="unidad_medida_sin" name="unidad_medida_sin" placeholder="Unidad de Medida SIN" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre del producto" required>
-                        </div>
-                    </div>
-                    <!-- Precio -->
-                    <div class="form-group">
-                        <label for="precio">Precio</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </span>
+                            <!-- Previsualización de Imagen -->
+                            <div class="form-group">
+                                <div class="mt-3">
+                                    <div id="image-container" class="prev-image" style="text-align: center;">
+                                        <img id="preview" src="#" alt="Previsualización" class="img-fluid prev-image" style="display:none;" />
+                                        <i id="placeholder-icon" class="fas fa-box-open" style="font-size: 100px; color: #ccc;"></i>
+                                    </div>
+                                </div>
                             </div>
-                            <input class="form-control" type="number" step="0.01" id="precio" name="precio" placeholder="Precio" required>
-                        </div>
-                    </div>
-                    <!-- Unidad de Medida -->
-                    <div class="form-group">
-                        <label for="unidad_medida">Unidad de Medida</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="text" id="unidad_medida" name="unidad_medida" placeholder="Unidad de Medida" required>
-                        </div>
-                    </div>
-                    <!-- Unidad de Medida SIN -->
-                    <div class="form-group">
-                        <label for="unidad_medida_sin">Unidad de Medida SIN</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="number" id="unidad_medida_sin" name="unidad_medida_sin" placeholder="Unidad de Medida SIN" required>
-                        </div>
-                    </div>
-                    <!-- Imagen -->
-                    <div class="form-group">
-                        <label for="imagen">Imagen</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-image"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="file" id="imagen" name="imagen" accept="image/*" required>
                         </div>
                     </div>
                 </form>
@@ -120,6 +121,21 @@
         </div>
     </div>
 </div>
+
+<style>
+    .input-group-text {
+        width: 40px !important;
+    }
+    .label-secondary {
+        color: #9BA3A9;
+    }
+    .prev-image {
+        width: 125px;
+        height: 125px;
+        max-width: 125px;
+        max-height: 125px;
+    }
+</style>
 <script>
     $.validator.setDefaults({
         submitHandler: function() {
@@ -156,7 +172,7 @@
                 },
                 imagen: {
                     required: true,
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "png|jpg"
                 }
             },
             errorElement: 'span',
@@ -171,5 +187,21 @@
                 $(element).removeClass('is-invalid');
             }
         });
+        $('#imagen').change(function() {
+            const input = this;
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    $('#preview').attr('src', e.target.result).show();
+                    $('#placeholder-icon').hide();
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                $('#preview').hide();
+                $('#placeholder-icon').show();
+            }
+        });
     });
+
+
 </script>

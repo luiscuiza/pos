@@ -2,6 +2,20 @@
 
 class ProductController {
 
+    static private function uuidImage($fileName) {
+        $ext = pathinfo($fileName, PATHINFO_EXTENSION);
+        $timestamp = round(microtime(true) * 1000);
+        $uuid = sprintf(
+            '%08x%04x%04x%04x%012x',
+            mt_rand(0, 0xffffffff),
+            mt_rand(0, 0xffff),
+            mt_rand(0, 0xffff) & 0x0fff | 0x4000,
+            mt_rand(0, 0x3fff) | 0x8000,
+            $timestamp
+        );
+        return "$uuid.$ext";
+    }
+
     /* Página con todos los productos */
     static public function renderProducts() {
         $products = ProductModel::alls();
@@ -10,6 +24,16 @@ class ProductController {
             'products' => $products
         ];
         TemplateController::render('./views/products/list.php', './views/layout/sidebar.php', $data);
+    }
+
+    /* Página catalogo SIN */
+    static public function renderCatalog() {
+        TemplateController::render('./views/products/catalog.php', './views/layout/sidebar.php');
+    }
+
+    /* Página Unidad de Medidas SIN */
+    static public function renderUMSin() {
+        TemplateController::render('./views/products/umsin.php', './views/layout/sidebar.php');
     }
 
     /* Formulario nuevo producto */
@@ -32,6 +56,20 @@ class ProductController {
         include 'views/products/formEdit.php';
     }
 
+    public static function renderViewForm() {
+        $productId = $_GET['id'] ?? null;
+        if (!$productId) {
+            echo "ID de producto no proporcionado.";
+            return;
+        }
+        $product = ProductModel::getProductById($productId);
+        if (!$product) {
+            echo "Producto no encontrado.";
+            return;
+        }
+        include 'views/products/formView.php';
+    }
+
     /* Crear un nuevo producto */
     public static function createProduct() {
         $codigo = $_POST['codigo'] ?? null;
@@ -41,18 +79,20 @@ class ProductController {
         $unidad_medida = $_POST['unidad_medida'] ?? null;
         $unidad_medida_sin = $_POST['unidad_medida_sin'] ?? null;
         $imagen = $_FILES['imagen']['name'] ?? null;
-        $disponible = isset($_POST['disponible']) ? 1 : 0;
+        #$disponible = isset($_POST['disponible']) ? 1 : 0;
+        $disponible = 1;
         if (empty($codigo) || empty($codigo_sin) || empty($nombre) || empty($precio) || empty($unidad_medida) || empty($unidad_medida_sin) || empty($imagen)) {
             echo json_encode(["status" => "ERROR", "message" => "Todos los campos son obligatorios."]);
             return;
         }
+        $imageName = self::uuidImage($imagen);
         $uploadDir = 'uploads/products/';
-        $uploadFile = $uploadDir . basename($imagen);
+        $uploadFile = $uploadDir . $imageName;
         if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadFile)) {
             echo json_encode(["status" => "ERROR", "message" => "Error al subir la imagen."]);
             return;
         }
-        $result = ProductModel::createProduct($codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imagen, $disponible);
+        $result = ProductModel::createProduct($codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imageName, $disponible);
         if ($result) {
             echo json_encode(["status" => "OK", "message" => "Producto creado exitosamente."]);
         } else {
@@ -76,17 +116,19 @@ class ProductController {
             return;
         }
         if ($imagen) {
+            $imageName = self::uuidImage($imagen);
             $uploadDir = 'uploads/products/';
-            $uploadFile = $uploadDir . basename($imagen);
+            $uploadFile = $uploadDir . $imageName;
+            $uploadFile = $uploadDir . basename($imageName);
             if (!move_uploaded_file($_FILES['imagen']['tmp_name'], $uploadFile)) {
                 echo json_encode(["status" => "ERROR", "message" => "Error al subir la imagen."]);
                 return;
             }
         } else {
-            $imagen = null;
+            $imageName = null;
         }
         try {
-            ProductModel::updateProduct($id, $codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imagen, $disponible);
+            ProductModel::updateProduct($id, $codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imageName, $disponible);
             echo json_encode(['status' => 'OK', 'message' => 'Producto actualizado exitosamente']);
         } catch (Exception $e) {
             echo json_encode(['status' => 'ERROR', 'message' => 'Error al actualizar el producto: ' . $e->getMessage()]);
@@ -111,7 +153,5 @@ class ProductController {
             echo json_encode(["status" => "ERROR", "message" => "Error al eliminar el producto: " . $e->getMessage()]);
         }
     }
-
-    
 
 }

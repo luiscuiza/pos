@@ -12,7 +12,7 @@
 ?>
 
 <div class="modal fade" id="products-edit-dialog" tabindex="-1" role="dialog" aria-labelledby="editProductTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable" role="document">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editProductTitle">Editar Producto</h5>
@@ -23,118 +23,133 @@
             <div class="modal-body">
                 <form id="edit-producto" enctype="multipart/form-data">
                     <input type="hidden" name="id" value="<?php echo $productId; ?>">
-                    <!-- Disponible -->
-                    <div class="form-group">
-                        <label for="disponible">Disponible</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-toggle-on"></i>
-                                </span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <!-- Código -->
+                            <div class="form-group">
+                                <label for="codigo">Código</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-barcode"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="codigo" name="codigo" placeholder="Código del producto" 
+                                        value="<?php echo htmlspecialchars($codigo); ?>" required>
+                                </div>
                             </div>
-                            <div class="d-flex align-items-center switch-container">
-                                <label class="switch my-1 px-1">
-                                    <input type="checkbox" id="disponible" name="disponible" value="1" <?php echo $disponible ? 'checked' : ''; ?> onchange="toggleStatusSwitch(this, 'Disponible', 'No Disponible')">
-                                    <span class="slider"></span>
-                                </label>
-                                <span class="status-label <?php echo $disponible ? 'label-status-active' : 'label-status-inactive'; ?>">
-                                    <?php echo $disponible ? 'Disponible' : 'No Disponible'; ?>
-                                </span>
+                            <!-- Nombre -->
+                            <div class="form-group">
+                                <label for="nombre">Nombre</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-tag"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre del producto" 
+                                        value="<?php echo htmlspecialchars($nombre); ?>" required>
+                                </div>
+                            </div>
+                            <!-- Unidad de Medida -->
+                            <div class="form-group">
+                                <label for="unidad_medida">Unidad de Medida</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="text" id="unidad_medida" name="unidad_medida" placeholder="Unidad de Medida" 
+                                        value="<?php echo htmlspecialchars($unidad_medida); ?>" required>
+                                </div>
+                            </div>
+                            <!-- Imagen -->
+                            <div class="form-group">
+                                <label for="imagen">Imagen</label>
+                                <span class="label-secondary">(Peso máximo 10MB - JPG, PNG)</span>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-image"></i>
+                                        </span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="imagen" name="imagen" accept="image/*">    
+                                        <label class="custom-file-label label-secondary" for="imagen">Elegir archivo</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Disponible -->
+                            <div class="form-group">
+                                <label for="disponible">Disponibilidad</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-toggle-on"></i>
+                                        </span>
+                                    </div>
+                                    <div class="d-flex align-items-center switch-container">
+                                        <label class="switch my-1 px-1">
+                                            <input type="checkbox" id="disponible" name="disponible" value="1" <?php echo $disponible ? 'checked' : ''; ?> onchange="toggleStatusSwitch(this, 'Disponible', 'No Disponible')">
+                                            <span class="slider"></span>
+                                        </label>
+                                        <span class="status-label <?php echo $disponible ? 'label-status-active' : 'label-status-inactive'; ?>">
+                                            <?php echo $disponible ? 'Disponible' : 'No Disponible'; ?>
+                                        </span>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!-- Código -->
-                    <div class="form-group">
-                        <label for="codigo">Código</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-barcode"></i>
-                                </span>
+                        <div class="col-md-6">
+                            <!-- Código SIN -->
+                            <div class="form-group">
+                                <label for="codigo_sin">Código SIN</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-barcode"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" id="codigo_sin" name="codigo_sin" placeholder="Código SIN" 
+                                        value="<?php echo htmlspecialchars($codigo_sin); ?>" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="text" id="codigo" name="codigo" placeholder="Código del producto" 
-                                   value="<?php echo htmlspecialchars($codigo); ?>" required>
-                        </div>
-                    </div>
-                    <!-- Código SIN -->
-                    <div class="form-group">
-                        <label for="codigo_sin">Código SIN</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-barcode"></i>
-                                </span>
+                            <!-- Precio -->
+                            <div class="form-group">
+                                <label for="precio">Precio</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-dollar-sign"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" step="0.01" id="precio" name="precio" placeholder="Precio" 
+                                        value="<?php echo htmlspecialchars($precio); ?>" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="number" id="codigo_sin" name="codigo_sin" placeholder="Código SIN" 
-                                   value="<?php echo htmlspecialchars($codigo_sin); ?>" required>
-                        </div>
-                    </div>
-                    <!-- Nombre -->
-                    <div class="form-group">
-                        <label for="nombre">Nombre</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-tag"></i>
-                                </span>
+                            <!-- Unidad de Medida SIN -->
+                            <div class="form-group">
+                                <label for="unidad_medida_sin">Unidad de Medida SIN</label>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">
+                                            <i class="fas fa-balance-scale"></i>
+                                        </span>
+                                    </div>
+                                    <input class="form-control" type="number" id="unidad_medida_sin" name="unidad_medida_sin" placeholder="Unidad de Medida SIN" 
+                                        value="<?php echo htmlspecialchars($unidad_medida_sin); ?>" required>
+                                </div>
                             </div>
-                            <input class="form-control" type="text" id="nombre" name="nombre" placeholder="Nombre del producto" 
-                                   value="<?php echo htmlspecialchars($nombre); ?>" required>
-                        </div>
-                    </div>
-                    <!-- Precio -->
-                    <div class="form-group">
-                        <label for="precio">Precio</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-dollar-sign"></i>
-                                </span>
+                            <!-- Imagen Vista previa -->
+                            <div class="col-md-6 d-flex align-items-center justify-content-center">
+                                <?php if ($imagen): ?> 
+                                    <img src="/uploads/products/<?php echo htmlspecialchars($imagen); ?>" alt="Imagen del producto" style="width: 100%; max-width: 300px; height: auto;">
+                                <?php else: ?>
+                                    <i class="fas fa-image" style="font-size: 100px; color: #ccc;"></i>
+                                <?php endif; ?>
                             </div>
-                            <input class="form-control" type="number" step="0.01" id="precio" name="precio" placeholder="Precio" 
-                                   value="<?php echo htmlspecialchars($precio); ?>" required>
                         </div>
-                    </div>
-                    <!-- Unidad de Medida -->
-                    <div class="form-group">
-                        <label for="unidad_medida">Unidad de Medida</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="text" id="unidad_medida" name="unidad_medida" placeholder="Unidad de Medida" 
-                                   value="<?php echo htmlspecialchars($unidad_medida); ?>" required>
-                        </div>
-                    </div>
-                    <!-- Unidad de Medida SIN -->
-                    <div class="form-group">
-                        <label for="unidad_medida_sin">Unidad de Medida SIN</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-balance-scale"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="number" id="unidad_medida_sin" name="unidad_medida_sin" placeholder="Unidad de Medida SIN" 
-                                   value="<?php echo htmlspecialchars($unidad_medida_sin); ?>" required>
-                        </div>
-                    </div>
-                    <!-- Imagen -->
-                    <div class="form-group">
-                        <label for="imagen">Imagen</label>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">
-                                    <i class="fas fa-image"></i>
-                                </span>
-                            </div>
-                            <input class="form-control" type="file" id="imagen" name="imagen" accept="image/*">
-                        </div>
-                        <?php if ($imagen): ?> 
-                            <img src="/uploads/products/<?php echo htmlspecialchars($imagen); ?>" alt="Imagen del producto" style="width: 100px; height: 100px;">
-                        <?php endif; ?>
                     </div>
                 </form>
             </div>
@@ -182,7 +197,7 @@
                     number: true
                 },
                 imagen: {
-                    extension: "jpg|jpeg|png|gif"
+                    extension: "jpg|png|gif"
                 }
             },
             errorElement: 'span',

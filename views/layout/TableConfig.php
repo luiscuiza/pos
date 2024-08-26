@@ -1,6 +1,12 @@
+<?php 
+    $defaultColsConfig = <<<EOL
+        { "width": "0px", "targets": -1 },
+        { "orderable": false, "targets": -1 },
+    EOL;
+?>
 <script>
     $(function () {
-        $("<?php echo '#'.$tableID ?>").DataTable({
+        $("#<?php echo $tableID ?>").DataTable({
             "info": true,
             "paging": true,
             "ordering": true,
@@ -16,15 +22,18 @@
                 { extend: 'colvis', text: 'Columnas'}
             ],
             "columnDefs": [
-                { "width": "0px", "targets": -1 },
-                { "orderable": false, "targets": -1 },
+                <?php if (isset($tableColsConfig)): ?>
+                    <?php echo $tableColsConfig; ?>
+                <?php else: ?>
+                    <?php echo $defaultColsConfig; ?>
+                <?php endif; ?>
             ],
             "language": {
                 "paginate": {
                     "previous": "‹",
                     "next":     "›",
                     "first":    "«",
-                    "last":     "»",
+                    "last":     "»"
                 },
                 "search": "Buscar:",
                 "lengthMenu": "Mostrar _MENU_ registros por página",
