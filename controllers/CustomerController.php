@@ -86,12 +86,32 @@ class CustomerController {
         try {
             $result = CustomerModel::removeCustomer($customerId);
             if ($result) {
-                echo json_encode(["status" => "OK", "message" => "Cliente eliminado exitosamente."]);
+                echo json_encode(["status" => "OK", "data" => $result]);
             } else {
-                echo json_encode(["status" => "ERROR", "message" => "No se pudo eliminar el cliente."]);
+                echo json_encode(["status" => "ERROR", "message" => "No se pudo obtener datos del cliente."]);
             }
         } catch (Exception $e) {
             echo json_encode(["status" => "ERROR", "message" => "Error al eliminar el cliente: " . $e->getMessage()]);
+        }
+    }
+
+    /* Informacion del Cliente */
+    public static function infoCustomer() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $nit = $data['nit'] ?? null;
+        if (empty($nit)) {
+            echo json_encode(["status" => "ERROR", "message" => "El NIT del cliente es requerido."]);
+            return;
+        }
+        try {
+            $customer = CustomerModel::infoCustomer($nit);
+            if ($customer) {
+                echo json_encode(["status" => "OK", "data" => $customer]);
+            } else {
+                echo json_encode(["status" => "ERROR", "message" => "No se pudo obtener informacion del cliente."]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["status" => "ERROR", "message" => "Error al obtener informacion del cliente: " . $e->getMessage()]);
         }
     }
 

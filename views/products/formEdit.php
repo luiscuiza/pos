@@ -1,13 +1,13 @@
 <?php
     // Asignar los valores del producto a variables para su uso en el formulario
-    $productId = $product['id'];
-    $codigo = $product['codigo'];
-    $codigo_sin = $product['codigo_sin'];
-    $nombre = $product['nombre'];
-    $precio = $product['precio'];
+    $productId = $product['id_producto'];
+    $codigo = $product['cod_producto'];
+    $codigo_sin = $product['cod_producto_sin'];
+    $nombre = $product['nombre_producto'];
+    $precio = $product['precio_producto'];
     $unidad_medida = $product['unidad_medida'];
     $unidad_medida_sin = $product['unidad_medida_sin'];
-    $imagen = $product['imagen'];
+    $imagen = $product['imagen_producto'];
     $disponible = $product['disponible'];
 ?>
 

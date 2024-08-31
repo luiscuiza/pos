@@ -2,6 +2,28 @@
 
 class FacturaModel {
 
+    /* Obtener el numero de factura */
+    public static function getNumFactura() {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->query("SELECT MAX(id_cliente) as nfact FROM factura");
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            $numFactura = $result['nfact'] ? $result['nfact'] + 1 : 1;
+            return $numFactura;
+        } catch (PDOException $e) {
+            throw new Exception("Error al obtener el número de factura: " . $e->getMessage());
+        }
+    }
+
+
+
+
+
+
+
+
+
     /* Obtener todas las facturas */
     public static function alls() {
         $pdo = Connection::connect();

@@ -43,16 +43,16 @@
                                 <?php if (isset($customers)): ?>
                                     <?php foreach ($customers as $customer): ?>
                                         <tr>
-                                            <td><?= htmlspecialchars($customer['razon_social']) ?></td>
-                                            <td><?= htmlspecialchars($customer['nit_ci']) ?></td>
-                                            <td><?= htmlspecialchars($customer['direccion']) ?></td>
-                                            <td><?= htmlspecialchars($customer['nombre']) ?></td>
-                                            <td><?= htmlspecialchars($customer['telefono']) ?></td>
-                                            <td><?= htmlspecialchars($customer['email']) ?></td>
+                                            <td><?= htmlspecialchars($customer['razon_social_cliente']) ?></td>
+                                            <td><?= htmlspecialchars($customer['nit_ci_cliente']) ?></td>
+                                            <td><?= htmlspecialchars($customer['direccion_cliente']) ?></td>
+                                            <td><?= htmlspecialchars($customer['nombre_cliente']) ?></td>
+                                            <td><?= htmlspecialchars($customer['telefono_cliente']) ?></td>
+                                            <td><?= htmlspecialchars($customer['email_cliente']) ?></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('customers','edit',<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('customers',<?= htmlspecialchars($customer['id']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('customers','edit',<?= htmlspecialchars($customer['id_cliente']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('customers',<?= htmlspecialchars($customer['id_cliente']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

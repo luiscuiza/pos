@@ -15,3 +15,4 @@
 <script src="/assets/plugins/pdfmake/pdfmake.min.js"></script>
 <script src="/assets/plugins/pdfmake/vfs_fonts.js"></script>
 <script src="/assets/js/switchbutton.js"></script>
+<script src="/assets/js/testConnection.js"></script>

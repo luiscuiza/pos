@@ -2,38 +2,6 @@
 
 class FacturaController {
 
-    /* Página con todas las facturas */
-    public static function renderFacturas() {
-        $facturas = FacturaModel::alls();
-        $data = [
-            'title' => 'POS - Facturas',
-            'facturas' => $facturas
-        ];
-        TemplateController::render('./views/facturas/list.php', './views/layout/sidebar.php', $data);
-    }
-
-    /* Formulario nueva factura */
-    public static function renderNewForm() {
-        include 'views/facturas/formNew.php';
-    }
-
-    /* Formulario editar factura */
-    public static function renderEditForm() {
-        $facturaId = $_GET['id'] ?? null;
-        if (!$facturaId) {
-            echo "ID de factura no proporcionado.";
-            return;
-        }
-        $factura = FacturaModel::getFacturaById($facturaId);
-        if (!$factura) {
-            echo "Factura no encontrada.";
-            return;
-        }
-        include 'views/facturas/formEdit.php';
-    }
-    
-    
-
     /* Crear una nueva factura */
     public static function createFactura() {
         $cod_factura = $_POST['cod_factura'] ?? null;

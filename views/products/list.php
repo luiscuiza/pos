@@ -42,11 +42,11 @@
                                 <?php if (isset($products)): ?>
                                     <?php foreach ($products as $product): ?>
                                         <tr>
-                                            <td><?= htmlspecialchars($product['codigo']) ?></td>
-                                            <td><?= htmlspecialchars($product['nombre']) ?></td>
-                                            <td><?= htmlspecialchars($product['precio']) ?></td>
+                                            <td><?= htmlspecialchars($product['cod_producto']) ?></td>
+                                            <td><?= htmlspecialchars($product['nombre_producto']) ?></td>
+                                            <td><?= htmlspecialchars($product['precio_producto']) ?></td>
                                             <td>
-                                                <img src="/uploads/products/<?= htmlspecialchars($product['imagen']) ?>" alt="Imagen del producto" style="width: 50px; height: 50px;">
+                                                <img src="/uploads/products/<?= htmlspecialchars($product['imagen_producto']) ?>" alt="Imagen del producto" style="width: 50px; height: 50px;">
                                             </td>
                                             <td>
                                                 <?php if ($product['disponible']): ?>
@@ -57,9 +57,9 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('products','edit',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn edit btn-dark" onclick="showForm('products', 'view', <?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-eye"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',<?= htmlspecialchars($product['id']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" onclick="showForm('products', 'view', <?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-eye"></i></a>    
+                                                    <a class="btn edit btn-dark" style="padding-right: 8px;" onclick="showForm('products','edit',<?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',<?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

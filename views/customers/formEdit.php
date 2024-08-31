@@ -1,11 +1,11 @@
 <?php
-    $customerId = $customer['id'];
-    $razon_social = $customer['razon_social'];
-    $nit_ci = $customer['nit_ci'];
-    $direccion = $customer['direccion'];
-    $nombre = $customer['nombre'];
-    $telefono = $customer['telefono'];
-    $email = $customer['email'];
+    $customerId = $customer['id_cliente'];
+    $razon_social = $customer['razon_social_cliente'];
+    $nit_ci = $customer['nit_ci_cliente'];
+    $direccion = $customer['direccion_cliente'];
+    $nombre = $customer['nombre_cliente'];
+    $telefono = $customer['telefono_cliente'];
+    $email = $customer['email_cliente'];
 ?>
 
 <div class="modal fade" id="customers-edit-dialog" tabindex="-1" role="dialog" aria-labelledby="editClientTitle" aria-hidden="true">

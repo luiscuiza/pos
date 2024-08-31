@@ -9,6 +9,11 @@
             <!-- 
                 <li class="nav-item d-none d-sm-inline-block"><a href="index3.html" class="nav-link">Home</a></li>   
             -->
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">
+                    <span class="badge" id="sin-status"></span>
+                </div>
+            </li>   
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -95,6 +100,21 @@
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-shopping-cart"></i> <!-- Ícono de carrito de compras para representar ventas -->
+                            <p>Ventas<i class="right fas fa-angle-left"></i></p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/sales/emit" class="nav-link">
+                                    <i class="fas fa-file-invoice" style="margin-right: 4px;"></i>
+                                    <span>Emitir Factura</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <!--
+                    <li class="nav-item">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-file-invoice"></i>
                             <p>Facturas<i class="right fas fa-angle-left"></i></p>
                         </a>
@@ -107,6 +127,7 @@
                             </li>
                         </ul>
                     </li>
+                    -->
                 </ul>
             </nav>
         </div>
@@ -116,3 +137,8 @@
     </div>
     <footer class="main-footer"></footer>
 </div>
+<style>
+    #sin-status {
+        font-size: 12px !important;
+    }
+</style>

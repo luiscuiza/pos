@@ -154,4 +154,23 @@ class ProductController {
         }
     }
 
+    /* Informacion de producto */
+    public static function infoProduct() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $codprod = $data['codprod'] ?? null;
+        if (empty($codprod)) {
+            echo json_encode(["status" => "ERROR", "message" => "El codigo de producto es requerido."]);
+            return;
+        }
+        try {
+            $producto = ProductModel::infoProduct($codprod);
+            if ($producto) {
+                echo json_encode(["status" => "OK", "data" => $producto]);
+            } else {
+                echo json_encode(["status" => "ERROR", "message" => "No se pudo obtener informacion del producto."]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["status" => "ERROR", "message" => "Error al obtener informacion del producto: " . $e->getMessage()]);
+        }
+    }
 }

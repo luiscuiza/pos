@@ -7,6 +7,7 @@ require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
 require_once 'models/CustomerModel.php';
 require_once 'models/ProductModel.php';
+require_once 'models/SaleModel.php';
 require_once 'models/FacturaModel.php';
 
 require_once 'controllers/TemplateController.php';
@@ -16,7 +17,9 @@ require_once 'controllers/DashboardController.php';
 require_once 'controllers/UserController.php';
 require_once 'controllers/CustomerController.php';
 require_once 'controllers/ProductController.php';
-require_once 'controllers/FacturaController.php';
+require_once 'controllers/SaleController.php';
+
+#require_once 'controllers/FacturaController.php';
 
 global $env;
 $env = new Environment('.env');
@@ -58,26 +61,22 @@ if (isset($_SESSION['user_id'])) {
             '/products/catalog'  => [ProductController::class, 'renderCatalog'],
             '/products/umedsin'  => [ProductController::class, 'renderUMSin'],
 
-            '/facturas'          => [FacturaController::class, 'renderFacturas'],
-            '/facturas/new'      => [FacturaController::class, 'renderNewForm'],
-            '/facturas/edit'     => [FacturaController::class, 'renderEditForm'],
+            '/sales/emit'        => [SaleController::class, 'renderEmit'],
         ],
         'POST' => [
             '/users/add'         => [UserController::class, 'createUser'],
             '/users/remove'      => [UserController::class, 'removeUser'],
             '/users/edit'        => [UserController::class, 'editUser'],
-
+            
             '/customers/add'     => [CustomerController::class, 'createCustomer'],
             '/customers/edit'    => [CustomerController::class, 'editCustomer'],
+            '/customers/info'    => [CustomerController::class, 'infoCustomer'],
             '/customers/remove'  => [CustomerController::class, 'removeCustomer'],
 
             '/products/add'      => [ProductController::class, 'createProduct'],
             '/products/edit'     => [ProductController::class, 'editProduct'],
+            '/products/info'     => [ProductController::class, 'infoProduct'],
             '/products/remove'   => [ProductController::class, 'removeProduct'],
-
-            '/facturas/add'      => [FacturaController::class, 'createFactura'],
-            '/facturas/edit'     => [FacturaController::class, 'editFactura'],
-            '/facturas/remove'   => [FacturaController::class, 'removeFactura'],
         ]
     ]; 
 

@@ -15,7 +15,7 @@ class ProductModel {
     static public function getProductById($id) {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->prepare("SELECT * FROM producto WHERE id = :id LIMIT 1");
+            $stmt = $pdo->prepare("SELECT * FROM producto WHERE id_producto = :id LIMIT 1");
             $stmt->execute(['id' => $id]);
             $product = $stmt->fetch(PDO::FETCH_ASSOC);
             $stmt->closeCursor();
@@ -29,7 +29,7 @@ class ProductModel {
     static public function createProduct($codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imagen, $disponible) {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->prepare("INSERT INTO producto (codigo, codigo_sin, nombre, precio, unidad_medida, unidad_medida_sin, imagen, disponible) VALUES (:codigo, :codigo_sin, :nombre, :precio, :unidad_medida, :unidad_medida_sin, :imagen, :disponible)");
+            $stmt = $pdo->prepare("INSERT INTO producto (cod_producto, cod_producto_sin, nombre_producto, precio_producto, unidad_medida, unidad_medida_sin, imagen_producto, disponible) VALUES (:codigo, :codigo_sin, :nombre, :precio, :unidad_medida, :unidad_medida_sin, :imagen, :disponible)");
             $stmt->bindParam(':codigo', $codigo, PDO::PARAM_STR);
             $stmt->bindParam(':codigo_sin', $codigo_sin, PDO::PARAM_INT);
             $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
@@ -54,7 +54,7 @@ class ProductModel {
     static public function removeProduct($id) {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->prepare("DELETE FROM producto WHERE id = :id");
+            $stmt = $pdo->prepare("DELETE FROM producto WHERE id_producto = :id");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             $result = $stmt->execute();
             $stmt->closeCursor();
@@ -68,11 +68,11 @@ class ProductModel {
     static public function updateProduct($id, $codigo, $codigo_sin, $nombre, $precio, $unidad_medida, $unidad_medida_sin, $imagen, $disponible) {
         try {
             $pdo = Connection::connect();
-            $query = "UPDATE producto SET codigo = :codigo, codigo_sin = :codigo_sin, nombre = :nombre, precio = :precio, unidad_medida = :unidad_medida, unidad_medida_sin = :unidad_medida_sin, disponible = :disponible";
+            $query = "UPDATE producto SET cod_producto = :codigo, cod_producto_sin = :codigo_sin, nombre_producto = :nombre, precio_producto = :precio, unidad_medida = :unidad_medida, unidad_medida_sin = :unidad_medida_sin, disponible = :disponible";
             if ($imagen !== null) {
-                $query .= ", imagen = :imagen";
+                $query .= ", imagen_producto = :imagen";
             }
-            $query .= " WHERE id = :id";
+            $query .= " WHERE id_producto = :id";
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':codigo', $codigo, PDO::PARAM_STR);
             $stmt->bindParam(':codigo_sin', $codigo_sin, PDO::PARAM_INT);
@@ -89,6 +89,20 @@ class ProductModel {
             $stmt->closeCursor();
         } catch (PDOException $e) {
             throw new Exception("Error al actualizar el producto: " . $e->getMessage());
+        }
+    }
+
+    public static function infoProduct ($codprod) {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("SELECT * FROM producto WHERE cod_producto = :codpro");
+            $stmt->bindParam(':codpro', $codprod, PDO::PARAM_STR);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $result;
+        } catch (PDOException $e) {
+            throw new Exception("Error al obtener datos del producto: " . $e->getMessage());
         }
     }
 
