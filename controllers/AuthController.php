@@ -13,9 +13,11 @@ class AuthController {
             $login_usuario = htmlspecialchars($login_usuario, ENT_QUOTES, 'UTF-8');
             $password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
             $userAuth = UserModel::authorize($login_usuario, $password);
-    
             if ($userAuth) {
                 $_SESSION['user_id'] = $userAuth['id_usuario'];
+                $_SESSION['user'] = $userAuth['login_usuario'];
+                $_SESSION['perfil'] = $userAuth['perfil'];
+                $_SESSION['photo'] = $userAuth['photo'];
                 header("Location: /dashboard");
                 exit;
             } else {

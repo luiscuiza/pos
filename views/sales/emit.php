@@ -1,4 +1,15 @@
+<?php global $env; ?>
+
 <?php ob_start(); ?>
+    <script>
+        var nit=<?= $env->get('nit') ?>;
+        var rsEmpresa='<?= $env->get('razonsocial') ?>';
+        var telEmpresa='<?= $env->get('phone') ?>';
+        var dirEmpresa='<?= $env->get('address') ?>';
+        var cuis='<?= $env->get('cuis') ?>';
+        var codsys='<?= $env->get('codsys') ?>';
+        var token='<?= $env->get('token') ?>';
+    </script>
     <script src="/assets/js/testConnection.js"></script>
     <script src="/assets/js/factura.js"></script>
 <?php $bodyJs = ob_get_clean(); ?>
@@ -9,8 +20,13 @@
             border-color: #DC3545 !important;
             background-color: #DC3545 !important;
         }
+        datalist {
+            display: none;
+        }
     </style>
 <?php $headCss = ob_get_clean(); ?>
+
+
 
 <section class="content p-4">
     <div class="container-fluid">
@@ -24,16 +40,19 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <div class="form-row">
+                                    <!-- Numero Factura -->
                                     <div class="form-group col-md-6">
                                         <label for="numFactura">#Factura</label>
                                         <input type="number" class="form-control" name="numFactura" id="numFactura" value="<?= $nFactura ?>" readonly>
                                     </div>
+                                    <!-- Actividad Economica -->
                                     <div class="form-group col-md-6">
                                         <label for="actEconomica">Actividad Economica</label>
                                         <select name="actEconomica" id="actEconomica" class="form-control">
                                             <option value="106140">Servicios de Comercio</option>
                                         </select>
                                     </div>
+                                    <!-- Tipo de Documento -->
                                     <div class="form-group col-md-6">
                                         <label for="tpDocumento">Tipo de Documento</label>
                                         <select name="tpDocumento" id="tpDocumento" class="form-control">
@@ -42,6 +61,7 @@
                                             <option value="5">NIT</option>
                                         </select>
                                     </div>
+                                    <!-- NIT/CI -->
                                     <div class="form-group col-md-6">
                                         <label for="nitCliente">NIT/CI</label>
                                         <div class="input-group">
@@ -58,10 +78,12 @@
                                             <?php endforeach; ?>
                                         </datalist>
                                     </div>
+                                    <!-- Razon Social -->
                                     <div class="form-group col-md-12">
                                         <label for="rsCliente">Razon Social</label>
                                         <input type="" class="form-control" name="rsCliente" id="rsCliente">
                                     </div>
+                                    <!-- EMail -->
                                     <div class="form-group col-md-12">
                                         <label for="emailCliente">E-mail</label>
                                         <input type="email" class="form-control" name="emailCliente" id="emailCliente">
@@ -70,6 +92,7 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-row">
+                                    <!-- Subtotal -->
                                     <div class="form-group col-12">
                                         <label for="subTotal">Subtotal</label>
                                         <div class="input-group">
@@ -79,6 +102,7 @@
                                             <input type="text" name="subTotal" id="subTotal" value="0.00" class="form-control">
                                         </div>
                                     </div>
+                                    <!-- Descuento -->
                                     <div class="form-group col-12">
                                         <label for="descAdicional">Descuento</label>
                                         <div class="input-group">
@@ -88,6 +112,7 @@
                                             <input type="text" name="descAdicional" id="descAdicional" value="0.00" class="form-control">
                                         </div>
                                     </div>
+                                    <!-- Total a Pagar -->
                                     <div class="form-group col-12">
                                         <label for="totApagar">Total a Pagar</label>
                                         <div class="input-group">
@@ -97,6 +122,7 @@
                                             <input type="text" name="totApagar" id="totApagar" value="0.00" class="form-control" readonly>
                                         </div>
                                     </div>
+                                    <!-- Metodo de Pago -->
                                     <div class="form-group col-12">
                                         <label for="metPago">Metodo de Pago</label>
                                         <select name="metPago" id="metPago" class="form-control">
@@ -140,16 +166,16 @@
                                 <label for="conceptoPro">Concepto</label>
                                 <input type="text" class="form-control" name="conceptoPro" id="conceptoPro">
                             </div>
+                            <!-- U. Medida -->
+                            <div class="form-group col-md-2">
+                                <label for="uniMedida">U. Medida</label>
+                                <input type="text" class="form-control" name="uniMedida" id="uniMedida" readonly>
+                                <input type="text" id="uniMedidaSin" hidden>
+                            </div>
                             <!-- Cantidad -->
                             <div class="form-group col-md-2">
                                 <label for="cantProdcuto">Cantidad</label>
                                 <input type="number" class="form-control" name="cantProdcuto" id="cantProdcuto" value="0" onkeyup="calcPreProd()">
-                            </div>
-                            <!-- U. Medida -->
-                            <div class="form-group col-md-2">
-                                <label for="uniMedida">U. Medida</label>
-                                <input type="text" class="form-control" name="uniMedida" id="uniMedida">
-                                <input type="text" id="uniMedidaSin" hidden>
                             </div>
                             <!-- P. Unitario -->
                             <div class="form-group col-md-2">

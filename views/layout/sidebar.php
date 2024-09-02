@@ -6,14 +6,16 @@
                     <i class="fas fa-bars"></i>
                 </a>
             </li>
-            <!-- 
-                <li class="nav-item d-none d-sm-inline-block"><a href="index3.html" class="nav-link">Home</a></li>   
-            -->
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">
-                    <span class="badge" id="sin-status"></span>
+                    <span class="badge badge-danger" id="sin-status">SIN - Desconectado</span>
                 </div>
-            </li>   
+            </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <div class="nav-link">
+                    <span class="badge badge-danger" id="cufd-status">CUFD - Caducado</span>
+                </div>
+            </li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -30,16 +32,22 @@
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
         <a href="#" class="brand-link">
-            <img src="/assets/dist/img/Logo_POS.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-            <span class="brand-text font-weight-light">Sistema POS</span>
+            <img src="/assets/dist/img/Logo_POS.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
+            <span class="brand-text font-weight-light" style="font-size: 25px;">Sistema POS</span>
         </a>
         <div class="sidebar">
-            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="user-panel d-flex">
                 <div class="image">
-                    <img src="/assets/dist/img/user_default.png" class="img-circle elevation-2" alt="User Image">
+                    <?php if (!empty($_SESSION['photo'])): ?>
+                        <img src="/uploads/users/<?= $_SESSION['photo'] ?>" class="img-circle elevation-2" alt="User Image" style="width: 45px; height: 45px; margin: 5px 0 5px 0;">
+                    <?php else: ?>
+                        <i class="fas fa-user-circle" style="color: #c2c7d0; font-size: 45px; margin: 5px 0 5px 0;"></i>
+                    <?php endif; ?>
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Administrador</a>
+                    <input type="hidden" name="usuarioLoggin" value="<?= $_SESSION['user'] ?>">
+                    <a href="#" class="d-block" style="font-size: 18px;"><?= ucwords(strtolower($_SESSION['user'])) ?></a>
+                    <span style="color: #AAAAAA; font-size: 16px;"><?= ucwords(strtolower($_SESSION['perfil'])) ?></span>
                 </div>
             </div>
             <nav class="mt-2">
@@ -100,7 +108,7 @@
                     </li>
                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-shopping-cart"></i> <!-- Ícono de carrito de compras para representar ventas -->
+                            <i class="nav-icon fas fa-shopping-cart"></i>
                             <p>Ventas<i class="right fas fa-angle-left"></i></p>
                         </a>
                         <ul class="nav nav-treeview">
@@ -112,22 +120,6 @@
                             </li>
                         </ul>
                     </li>
-                    <!--
-                    <li class="nav-item">
-                        <a href="#" class="nav-link">
-                            <i class="nav-icon fas fa-file-invoice"></i>
-                            <p>Facturas<i class="right fas fa-angle-left"></i></p>
-                        </a>
-                        <ul class="nav nav-treeview">
-                            <li class="nav-item">
-                                <a href="/facturas" class="nav-link">
-                                    <i class="fas fa-list" style="margin-right: 4px;"></i>
-                                    <span>Lista de facturas</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    -->
                 </ul>
             </nav>
         </div>
@@ -138,7 +130,7 @@
     <footer class="main-footer"></footer>
 </div>
 <style>
-    #sin-status {
+    #sin-status, #cufd-status {
         font-size: 12px !important;
     }
 </style>

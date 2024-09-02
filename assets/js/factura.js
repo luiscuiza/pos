@@ -130,18 +130,88 @@ function eliminarCarrito(cod) {
 }
 
 function calcTotalFactura() {
-    let subtotal = 0;
-    let descuento = 0;
-    let total = 0;
+    let subtotal = 0.0;
+    let descuento = 0.0;
+    let total = 0.0;
 
     carrito.forEach(function(item) {
-        let totalItem = item.precioUnitario * item.cantidad;
-        subtotal += totalItem;
-        descuento += item.montoDescuento;
-        total += item.subTotal;
+        let totalItem = parseFloat(item.precioUnitario * item.cantidad);
+        subtotal += parseFloat(totalItem);
+        descuento += parseFloat(item.montoDescuento);
+        //total += parseFloat(item.subTotal);
     });
+    total += parseFloat(subtotal-descuento)
 
     document.getElementById('subTotal').value = subtotal.toFixed(2);
     document.getElementById('descAdicional').value = descuento.toFixed(2);
     document.getElementById('totApagar').value = (subtotal - descuento).toFixed(2);
+}
+
+function emitirFactura() {
+    let date = new Date();
+
+    let numFactura = parseInt(document.getElementById('numFactura').value);
+    let fechaFactura = date.toISOString();
+    let rsCliente = document.getElementById('rsCliente').value;
+    let tpDocumento = parseInt(document.getElementById('tpDocumento').value);
+    let nitCliente = document.getElementById('nitCliente').value;
+    let metPago = parseInt(document.getElementById('metPago').value);
+    let totApagar = parseFloat(document.getElementById('totApagar').value);
+    let descAdicional = parseFloat(document.getElementById('descAdicional').value);
+    let subTotal = parseFloat(document.getElementById('subTotal').value);
+    let usuarioLogin = document.querySelector('input[name="usuarioLoggin"]').value;
+    let actEconomica = document.getElementById('actEconomica').value;
+    let emailCliente = document.getElementById('emailCliente').value;
+
+    var obj = {
+        codigoAmbiente:2,
+        codigoDocumentSector:1,
+        codigoEmision:1,
+        codigoModalidad:2,
+        codigoSucursal:0,
+        codigoPuntoVenta:0,
+        codigoPuntoVentaSpecified:true,
+        codigoSistema:codsys,
+        cuis:cuis,
+        cufd:cufd,
+        nit:nit,
+        tipoFacturaDocumento:1,
+        archivo:null,
+        fechaEnvio:fechaFactura,
+        hashArchivo:'',
+        codigoControl:'',
+        factura: {
+            cabecera:{
+                nitEmisor: nit,
+                razonSocialEmisor: rsEmpresa,
+                municipio: 'Santa Cruz',
+                telefono: telEmpresa,
+                numeroFactura: numFactura,
+                cuf:'String',
+                cufd: cufd,
+                codigoSucursal:0,
+                direccion:dirEmpresa,
+                codigoPuntoVenta:0,
+                fechaEmision: fechaFactura,
+                nombreRazonSolcial:rsCliente,
+                codigoTipoDocumentoIdentidad: tpDocumento,
+                numeroDocument:nitCliente,
+                complemento:'',
+                codigoCliente:nitCliente,
+                codigoMetodoPago:metPago,
+                numeroTarjeta:null,
+                montoTotal, subtotal,
+                montoTotalSujetoIva:totApagar,
+                montoGiftCard:0,
+                descuentoAdicional:descAdicional,
+                codigoException:'0',
+                calcf:null,
+                leyenda:'',
+                usuario:usuarioLogin,
+                codigoDocumentSector:1,
+
+            },
+            detalle:carrito
+        }
+    };
 }
