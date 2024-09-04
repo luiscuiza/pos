@@ -8,12 +8,12 @@
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">
-                    <span class="badge badge-danger" id="sin-status">SIN - Desconectado</span>
+                    <span class="badge" id="sin-status"></span>
                 </div>
             </li>
             <li class="nav-item d-none d-sm-inline-block">
                 <div class="nav-link">
-                    <span class="badge badge-danger" id="cufd-status">CUFD - Caducado</span>
+                    <span class="badge" id="cufd-status"></span>
                 </div>
             </li>
         </ul>

@@ -179,7 +179,7 @@ function emitirFactura() {
         archivo:null,
         fechaEnvio:fechaFactura,
         hashArchivo:'',
-        codigoControl:'',
+        codigoControl:codControlCufd,
         factura: {
             cabecera:{
                 nitEmisor: nit,
@@ -206,7 +206,7 @@ function emitirFactura() {
                 descuentoAdicional:descAdicional,
                 codigoException:'0',
                 calcf:null,
-                leyenda:'',
+                leyenda:leyenda,
                 usuario:usuarioLogin,
                 codigoDocumentSector:1,
 

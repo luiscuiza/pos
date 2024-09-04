@@ -10,6 +10,7 @@ require_once 'models/ProductModel.php';
 require_once 'models/SaleModel.php';
 require_once 'models/FacturaModel.php';
 require_once 'models/CufdModel.php';
+require_once 'models/LeyendaModel.php';
 
 require_once 'controllers/TemplateController.php';
 require_once 'controllers/ErrorController.php';
@@ -20,6 +21,7 @@ require_once 'controllers/CustomerController.php';
 require_once 'controllers/ProductController.php';
 require_once 'controllers/SaleController.php';
 require_once 'controllers/CufdController.php';
+require_once 'controllers/LeyendaController.php';
 
 #require_once 'controllers/FacturaController.php';
 
@@ -66,6 +68,8 @@ if (isset($_SESSION['user_id'])) {
             '/sales/emit'        => [SaleController::class, 'renderEmit'],
 
             '/cufd/info'         => [CufdController::class, 'info'],
+
+            '/leyenda'           => [LeyendaController::class, 'random'],
         ],
         'POST' => [
             '/users/add'         => [UserController::class, 'createUser'],
