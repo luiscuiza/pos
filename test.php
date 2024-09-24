@@ -1,10 +1,8 @@
 <?php
 
 require_once 'models/Connection.php';
-require_once 'models/CufdModel.php';
+require_once 'models/UserModel.php';
 
-var_dump(
-    CufdModel::lastCufd()
-);
+UserModel::createUser('admin', 'admin', 'Administrador');
 
 ?>

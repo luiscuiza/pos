@@ -1,30 +1,20 @@
-var host='http://localhost:5000/';
-
-var cufd;
-var codControlCufd;
-var fechaVigCufd;
-var leyenda;
-
 $(function() {
 
     function checkConnection() {
         return new Promise((resolve, reject) => {
             $.ajax({
-                url: `${host}api/CompraVenta/comunicacion`,
-                method: 'POST',
-                data: "",
-                cache: false,
-                contentType: 'application/json',
-                processData: false,
+                type: 'GET',
+                url: '/siat/connected',
+                dataType: 'json',
                 success: function(response) {
-                    if(response.transaccion) {
+                    if(response.success) {
                         resolve();
                     } else {
-                        reject();
+                        reject(new Error(response.message));
                     }
                 },
-                error: function() {
-                    reject();
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject(new Error(textStatus));
                 }
             });
         });
@@ -34,87 +24,37 @@ $(function() {
         return new Promise((resolve, reject) => {
             $.ajax({
                 type: 'GET',
-                url: '/cufd/info',
+                url: '/siat/cufd/valid',
                 dataType: 'json',
                 success: function(response) {
-                    if (response.status === 'success') {
-                        let now = new Date();
-                        let vigencia = new Date(response.data.fecha_vigencia);
-                        let expiracion = Math.floor((vigencia - now) / 1000);
-                        if (expiracion > 0) {
-                            resolve({
-                                'cufd':response.data.codigo_cufd,
-                                'control':response.data.codigo_control,
-                                'vigencia':response.data.fecha_vigencia
-                            });
-                        } else {
-                            reject();
-                        }
-                    } else {
-                        reject();
-                    }
-                },
-                error: function() {
-                    reject();
-                }
-            });
-        });
-    }
-
-    function requestNewCufd() {
-        return new Promise((resolve, reject) => {
-            var obj = {
-                codigoAmbiente: 2,
-                codigoModalidad: 2,
-                codigoPuntoVenta: 0,
-                codigoPuntoVentaSpecified: true,
-                codigoSistema: codsys,
-                codigoSucursal: 0,
-                nit: nit,
-                cuis:cuis
-            };
-            $.ajax({
-                type: 'POST',
-                url: `${host}api/Codigos/solicitudCufd?token=${token}`,
-                data:JSON.stringify(obj),
-                cache: false,
-                dataType:'json',
-                contentType: 'application/json',
-                success:function(response) {
-                    resolve({
-                        'cufd':response.codigo,
-                        'control':response.codigoControl,
-                        'vigencia':response.fechaVigencia
-                    });
-                },
-                error: function() {
-                    reject();
-                }
-            });
-        });
-    }
-
-    function saveCufd(data) {
-        return new Promise((resolve, reject) => {
-            var obj={
-                'cufd':data.cufd,
-                'control':data.control,
-                'vigencia':data.vigencia
-            };
-            $.ajax({
-                type: 'POST',
-                data: obj,
-                cache: false,
-                url: '/cufd/save',
-                success:function(response) {
-                    if(response.status === 'success') {
+                    if(response.success) {
                         resolve();
                     } else {
-                        reject();
+                        reject(new Error(response.message));
                     }
                 },
-                error: function() {
-                    reject();
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject(new Error(textStatus));
+                }
+            });
+        });
+    }
+
+    function regenerateCufd() {
+        return new Promise((resolve, reject) => {
+            $.ajax({
+                type: 'GET',
+                url: '/siat/cufd/renew',
+                dataType: 'json',
+                success: function(response) {
+                    if(response.success) {
+                        resolve();
+                    } else {
+                        reject(new Error(response.message));
+                    }
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject(new Error(textStatus));
                 }
             });
         });
@@ -133,8 +73,8 @@ $(function() {
                         reject();
                     }
                 },
-                error: function() {
-                    reject();
+                error: function(jqXHR, textStatus, errorThrown) {
+                    reject(new Error(`Error en la conexión: ${textStatus} - ${errorThrown}`));
                 }
             });
         });
@@ -147,7 +87,7 @@ $(function() {
             .then(() => {
                 $('#sin-status').removeClass('badge-danger').addClass('badge-success').text("SIN - Conectado");
             })
-            .catch(() => {
+            .catch( error => {
                 $('#sin-status').removeClass('badge-success').addClass('badge-danger').text("SIN - Desconectado");
             })
             .finally(() => {
@@ -156,24 +96,19 @@ $(function() {
     }
 
     function cufdStatus() {
-        checkCufdVigency().then((data) => {
-            cufd = data.cufd;
-            codControlCufd = data.control;
-            fechaVigCufd = data.vigencia;
+        checkCufdVigency().then(() => {
             $('#cufd-status').removeClass('badge-danger').addClass('badge-success').text('CUFD - Vigente');
         })
-        .catch(() => {
+        .catch( error => {
             $('#cufd-status').removeClass('badge-success').addClass('badge-danger').text('CUFD - Caducado');
-            requestNewCufd().then((data) => {
+            regenerateCufd().then((data) => {
                 saveCufd(data).then(() => {
-                    cufd = data.cufd;
-                    codControlCufd = data.control;
-                    fechaVigCufd = data.vigencia;
                     $('#cufd-status').removeClass('badge-danger').addClass('badge-success').text('CUFD - Vigente');
                 }).catch(() => {});
-            }).catch(() => {});
+            }).catch( error => {
+            });
         })
-        .finally(() => {
+        .finally( () => {
             setTimeout(cufdStatus, 5000);
         });
     }
@@ -183,7 +118,8 @@ $(function() {
             .then((descripcion)=>{
                 leyenda = descripcion;
             })
-            .catch(()=>{})
+            .catch( error => {
+            })
             .finally(()=>{
                 setTimeout(extraerLeyenda, 5000);
             });

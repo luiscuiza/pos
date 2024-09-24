@@ -1,6 +1,6 @@
 <?php
 
-require 'helpers/sessions.php';
+require_once 'helpers/sessions.php';
 require_once 'helpers/env.php';
 
 require_once 'models/Connection.php';
@@ -22,8 +22,7 @@ require_once 'controllers/ProductController.php';
 require_once 'controllers/SaleController.php';
 require_once 'controllers/CufdController.php';
 require_once 'controllers/LeyendaController.php';
-
-#require_once 'controllers/FacturaController.php';
+require_once 'controllers/SIATController.php';
 
 global $env;
 $env = new Environment('.env');
@@ -70,6 +69,12 @@ if (isset($_SESSION['user_id'])) {
             '/cufd/info'         => [CufdController::class, 'info'],
 
             '/leyenda'           => [LeyendaController::class, 'random'],
+
+            '/siat/medidas'      => [SIATController::class, 'unidadMedidas'],
+            '/siat/catalog'      => [SIATController::class, 'sinCatalog'],
+            '/siat/connected'    => [SIATController::class, 'isConnected'],
+            '/siat/cufd/valid'   => [SIATController::class, 'isValidCufd'],
+            '/siat/cufd/renew'   => [SIATController::class, 'renewCufd'],
         ],
         'POST' => [
             '/users/add'         => [UserController::class, 'createUser'],

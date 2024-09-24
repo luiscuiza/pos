@@ -16,34 +16,39 @@
     <?php include 'views/layout/ListJs.php'; ?>
     <?php include 'views/layout/TableConfig.php'; ?>
     <script>
-        function sincronizeCatalog() {
-            var data = {
-                codigoAmbiente: 2,
-                codigoPuntoVenta: 0,
-                codigoPuntoVentaSpecified: true,
-                codigoSucursal: 0,
-                codigoSistema: "<?php echo $env->get('codsys') ?>",
-                cuis: "<?php echo $env->get('cuis')  ?>",
-                nit: <?php echo $env->get('nit') ?>
-            };
+        function searchProduct() {
             $.ajax({
-                url: 'http://localhost:5000/Sincronizacion/listaproductosservicios?token=<?php echo $env->get('token') ?>',
-                method: 'POST',
-                data: JSON.stringify(data),
-                cache: false,
-                contentType: "application/json",
-                success: function(data) {
-                    var table = $("#<?php echo $tableID ?>").DataTable();
-                    data.listaCodigos.forEach((item)=>{
-                        table.row.add([
-                            item.codigoActividad,
-                            item.codigoProducto,
-                            item.descripcionProducto
-                        ]);
-                    });
-                    table.draw();
+                url: '/products/info',
+                method: 'GET',
+                contentType: 'application/json',
+                success: function(response) {
+                    console.log(response);
                 }
-            });
+            }); 
+        }
+
+        function sincronizeCatalog() {
+            $.ajax({
+                url: '/siat/catalog',
+                method: 'GET',
+                dataType: 'json',
+                success: function(response) {
+                    if (response.success) {
+                        var table = $("#<?php echo $tableID ?>").DataTable();
+                        table.clear();
+                        response.data.listaCodigos.forEach((item)=>{
+                            table.row.add([
+                                item.codigoActividad,
+                                item.codigoProducto,
+                                item.descripcionProducto
+                            ]);
+                        });
+                        table.draw();
+                    } else {
+                        console.log('Error GET JSON');
+                    }
+                }
+            }); 
         }
     </script>
 <?php $bodyJs = ob_get_clean(); ?>

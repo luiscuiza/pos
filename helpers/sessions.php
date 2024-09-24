@@ -16,6 +16,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+if (!isset($_SESSION['cufd'])) {
+    $_SESSION['cufd'] = '';
+    $_SESSION['cufdControl'] = '';
+}
+
 if (!isset($_SESSION['created'])) {
     $_SESSION['created'] = time();
 } elseif (time() - $_SESSION['created'] > $session_regeneration) {
