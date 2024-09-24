@@ -2,28 +2,20 @@
 
 class SaleController {
 
-    /* Quitar */
-    static public function renderSales() {
-        $sales = SaleModel::alls();
-        $data = [
-            'title' => 'POS - Ventas',
-            'sales' => $sales
-        ];
-        TemplateController::render('./views/sales/list.php', './views/layout/sidebar.php', $data);
-    }
-
-
     static public function renderEmit() {
         $customers = CustomerModel::alls();
         $nFactura = FacturaModel::getNumFactura();
         $productos = ProductModel::alls();
+        $cart = CartModel::get();
         $data = [
             'title' => 'POS - Emitir Factura',
             'customers' => $customers,
             'nFactura' => $nFactura,
-            'productos' => $productos
+            'productos' => $productos,
+            'cart' => $cart['cart'],
+            'totales' => $cart['totales']
         ];
         TemplateController::render('./views/sales/emit.php', './views/layout/sidebar.php', $data);
     }
-
+    
 }

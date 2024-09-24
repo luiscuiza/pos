@@ -1,7 +1,7 @@
 <?php
 
-require_once 'helpers/sessions.php';
 require_once 'helpers/env.php';
+require_once 'helpers/sessions.php';
 
 require_once 'models/Connection.php';
 require_once 'models/UserModel.php';
@@ -11,6 +11,7 @@ require_once 'models/SaleModel.php';
 require_once 'models/FacturaModel.php';
 require_once 'models/CufdModel.php';
 require_once 'models/LeyendaModel.php';
+require_once 'models/CartModel.php';
 
 require_once 'controllers/TemplateController.php';
 require_once 'controllers/ErrorController.php';
@@ -23,6 +24,7 @@ require_once 'controllers/SaleController.php';
 require_once 'controllers/CufdController.php';
 require_once 'controllers/LeyendaController.php';
 require_once 'controllers/SIATController.php';
+require_once 'controllers/CartController.php';
 
 global $env;
 $env = new Environment('.env');
@@ -92,6 +94,10 @@ if (isset($_SESSION['user_id'])) {
             '/products/remove'   => [ProductController::class, 'removeProduct'],
 
             '/cufd/save'         => [CufdController::class, 'save'],
+
+            '/cart/add'          => [CartController::class, 'addProduct'],
+            '/cart/clear'        => [CartController::class, 'clearCart'],
+            '/cart/remove'       => [CartController::class, 'removeProduct'],
         ]
     ]; 
 

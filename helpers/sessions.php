@@ -16,9 +16,10 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-if (!isset($_SESSION['cufd'])) {
-    $_SESSION['cufd'] = '';
-    $_SESSION['cufdControl'] = '';
+if (!isset($_SESSION['user_id'])) {
+    $_SESSION['cufd'] = $_SESSION['cufd'] ?? '';
+    $_SESSION['cufdControl'] = $_SESSION['cufdControl'] ?? '';
+    $_SESSION['cart'] = $_SESSION['cart'] ?? [];
 }
 
 if (!isset($_SESSION['created'])) {

@@ -129,8 +129,3 @@
     </div>
     <footer class="main-footer"></footer>
 </div>
-<style>
-    #sin-status, #cufd-status {
-        font-size: 12px !important;
-    }
-</style>

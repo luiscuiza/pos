@@ -45,7 +45,116 @@ function searchProduct() {
     }   
 }
 
-function calcPreProd() {
+function fillCartTable(cart, totales) {
+    let table = document.getElementById('listaDetalle');
+    table.innerHTML = '';
+    Object.entries(cart).forEach(([key, detalle]) => {
+        let row = table.insertRow();
+        row.insertCell(0).innerHTML = `${detalle.descripcion}`;
+        row.insertCell(1).innerHTML = `${detalle.cantidad}`;
+        row.insertCell(2).innerHTML = `${detalle.precioUnitario.toFixed(2)}`;
+        row.insertCell(3).innerHTML = `${detalle.montoDescuento.toFixed(2)}`;
+        row.insertCell(4).innerHTML = `${detalle.subTotal.toFixed(2)}`;
+        row.insertCell(5).innerHTML = `
+            <a class="btn remove btn-dark rounded" onclick="eliminarCarrito('${key}')"><i class="fas fa-trash"></i></a>
+        `;
+    });
+    document.getElementById('subTotal').value = totales.neto.toFixed(2);
+    document.getElementById('descAdicional').value = totales.descuento.toFixed(2);
+    document.getElementById('totApagar').value = totales.total.toFixed(2);
+}
+
+function agregarCarrito() {
+    let actividadEconomica = document.getElementById('actEconomica').value.trim();
+    let codigoProductoSin = parseInt(document.getElementById('codProductSin').value);
+    let codigoProducto = document.getElementById('codProducto').value.trim();
+    let descripcion = document.getElementById('conceptoPro').value.trim();
+    let cantidad = parseInt(document.getElementById('cantProdcuto').value);
+    let unidadMedida = document.getElementById('uniMedida').value.trim();
+    let unidadMedidaSin = parseInt(document.getElementById('uniMedidaSin').value);
+    let precioUnitario = parseFloat(document.getElementById('preUnitario').value);
+    let montoDescuento = parseFloat(document.getElementById('descProducto').value);
+
+    if (!actividadEconomica || isNaN(codigoProductoSin) || !codigoProducto || !descripcion || isNaN(cantidad) || !unidadMedida || isNaN(unidadMedidaSin) || isNaN(precioUnitario) || isNaN(montoDescuento)) {
+        return;
+    }
+
+    if (cantidad <= 0 || precioUnitario <= 0) {
+        return;
+    }
+
+    let detalle = {
+        actividadEconomica: actividadEconomica,
+        codigoProductoSin: codigoProductoSin,
+        codigoProducto: codigoProducto,
+        descripcion: descripcion,
+        cantidad: cantidad,
+        unidadMedida: unidadMedida,
+        unidadMedidaSin: unidadMedidaSin,
+        precioUnitario: precioUnitario,
+        montoDescuento: montoDescuento,
+    };
+
+    document.getElementById('codProducto').value = '';
+    document.getElementById('codProductSin').value = '';
+    document.getElementById('conceptoPro').value = '';
+    document.getElementById('cantProdcuto').value = 0;
+    document.getElementById('uniMedida').value = '';
+    document.getElementById('uniMedidaSin').value = '';
+    document.getElementById('preUnitario').value = 0;
+    document.getElementById('descProducto').value = 0;
+    document.getElementById('preTotal').value = 0;
+
+    $.ajax({
+        url: '/cart/add',
+        method: 'POST',
+        data: JSON.stringify(detalle),
+        dataType: "json",
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                let cart = response.data.cart;
+                let totales = response.data.totales;
+                fillCartTable(cart, totales);
+            }
+        },
+        error: function(e) {
+            console.log(e);
+        }
+    });
+}
+
+function eliminarCarrito(uuid) {
+    $.ajax({
+        url: '/cart/remove',
+        method: 'POST',
+        data: JSON.stringify({
+            'uuid': uuid
+        }),
+        dataType: "json",
+        contentType: 'application/json',
+        success: function(response) {
+            if (response.success) {
+                let cart = response.data.cart;
+                let totales = response.data.totales;
+                fillCartTable(cart, totales);
+            }
+        }
+    });
+}
+
+function limpiarCarrito() {
+    $.ajax({
+        url: '/cart/clear',
+        method: 'POST',
+        dataType: "json",
+        contentType: 'application/json'        
+    }).always(function() {
+        window.location.reload();
+    });;
+}
+
+function prevTotal() {
     let pu = document.getElementById('preUnitario').value;
     let cant = document.getElementById('cantProdcuto').value;
     let desc = document.getElementById('descProducto').value;
@@ -60,158 +169,6 @@ function calcPreProd() {
     }
 }
 
-var carrito = [];
-
-function agregarCarrito() {
-    let actEconomica = document.getElementById('actEconomica').value.trim();
-    let codProducto = document.getElementById('codProducto').value.trim();
-    let codProductoSin = parseInt(document.getElementById('codProductSin').value);
-    let conceptoPro = document.getElementById('conceptoPro').value.trim();
-    let cantProducto = parseInt(document.getElementById('cantProdcuto').value);
-    let uniMedida = document.getElementById('uniMedida').value.trim();
-    let uniMedidaSin = parseInt(document.getElementById('uniMedidaSin').value);
-    let preUnitario = parseFloat(document.getElementById('preUnitario').value);
-    let descProducto = parseFloat(document.getElementById('descProducto').value);
-    let preTotal = parseFloat(document.getElementById('preTotal').value);
-
-    let objDetalle = {
-        actividadEconomica:actEconomica,
-        codigoProductoSin:codProductoSin,
-        codigoProducto:codProducto,
-        descripcion:conceptoPro,
-        cantidad:cantProducto,
-        unidadMedida:uniMedidaSin,
-        precioUnitario:preUnitario,
-        montoDescuento:descProducto,
-        subTotal:preTotal
-    };
-
-    carrito.push(objDetalle);
-    
-    drawTable();
-    calcTotalFactura();
-
-    document.getElementById('actEconomica').value='';
-    document.getElementById('codProducto').value='';
-    document.getElementById('codProductSin').value='';
-    document.getElementById('conceptoPro').value='';
-    document.getElementById('cantProdcuto').value=0;
-    document.getElementById('uniMedida').value='';
-    document.getElementById('uniMedidaSin').value='';
-    document.getElementById('preUnitario').value=0;
-    document.getElementById('descProducto').value=0;
-    document.getElementById('preTotal').value=0;
-}
-
-function drawTable() {
-    let table = document.getElementById('listaDetalle');
-    table.innerHTML = '';
-    carrito.forEach((detalle)=>{
-        let row = table.insertRow();
-        row.insertCell(0).innerHTML = `${detalle.descripcion}`;
-        row.insertCell(1).innerHTML = `${detalle.cantidad}`;
-        row.insertCell(2).innerHTML = `${detalle.precioUnitario}`;
-        row.insertCell(3).innerHTML = `${detalle.montoDescuento}`;
-        row.insertCell(4).innerHTML = `${detalle.subTotal}`;
-        row.insertCell(5).innerHTML = `
-            <a class="btn remove btn-dark rounded" onclick="eliminarCarrito('${detalle.codigoProducto}')"><i class="fas fa-trash"></i></a>
-        `;
-    });
-}
-
-function eliminarCarrito(cod) {
-    carrito = carrito.filter((detalle)=>{
-        if(cod !== detalle.codigoProducto) {
-            return detalle
-        }
-    });
-    drawTable();
-    calcTotalFactura();
-}
-
-function calcTotalFactura() {
-    let subtotal = 0.0;
-    let descuento = 0.0;
-    let total = 0.0;
-
-    carrito.forEach(function(item) {
-        let totalItem = parseFloat(item.precioUnitario * item.cantidad);
-        subtotal += parseFloat(totalItem);
-        descuento += parseFloat(item.montoDescuento);
-        //total += parseFloat(item.subTotal);
-    });
-    total += parseFloat(subtotal-descuento)
-
-    document.getElementById('subTotal').value = subtotal.toFixed(2);
-    document.getElementById('descAdicional').value = descuento.toFixed(2);
-    document.getElementById('totApagar').value = (subtotal - descuento).toFixed(2);
-}
-
 function emitirFactura() {
-    let date = new Date();
-
-    let numFactura = parseInt(document.getElementById('numFactura').value);
-    let fechaFactura = date.toISOString();
-    let rsCliente = document.getElementById('rsCliente').value;
-    let tpDocumento = parseInt(document.getElementById('tpDocumento').value);
-    let nitCliente = document.getElementById('nitCliente').value;
-    let metPago = parseInt(document.getElementById('metPago').value);
-    let totApagar = parseFloat(document.getElementById('totApagar').value);
-    let descAdicional = parseFloat(document.getElementById('descAdicional').value);
-    let subTotal = parseFloat(document.getElementById('subTotal').value);
-    let usuarioLogin = document.querySelector('input[name="usuarioLoggin"]').value;
-    let actEconomica = document.getElementById('actEconomica').value;
-    let emailCliente = document.getElementById('emailCliente').value;
-
-    var obj = {
-        codigoAmbiente:2,
-        codigoDocumentSector:1,
-        codigoEmision:1,
-        codigoModalidad:2,
-        codigoSucursal:0,
-        codigoPuntoVenta:0,
-        codigoPuntoVentaSpecified:true,
-        codigoSistema:codsys,
-        cuis:cuis,
-        cufd:cufd,
-        nit:nit,
-        tipoFacturaDocumento:1,
-        archivo:null,
-        fechaEnvio:fechaFactura,
-        hashArchivo:'',
-        codigoControl:codControlCufd,
-        factura: {
-            cabecera:{
-                nitEmisor: nit,
-                razonSocialEmisor: rsEmpresa,
-                municipio: 'Santa Cruz',
-                telefono: telEmpresa,
-                numeroFactura: numFactura,
-                cuf:'String',
-                cufd: cufd,
-                codigoSucursal:0,
-                direccion:dirEmpresa,
-                codigoPuntoVenta:0,
-                fechaEmision: fechaFactura,
-                nombreRazonSolcial:rsCliente,
-                codigoTipoDocumentoIdentidad: tpDocumento,
-                numeroDocument:nitCliente,
-                complemento:'',
-                codigoCliente:nitCliente,
-                codigoMetodoPago:metPago,
-                numeroTarjeta:null,
-                montoTotal, subtotal,
-                montoTotalSujetoIva:totApagar,
-                montoGiftCard:0,
-                descuentoAdicional:descAdicional,
-                codigoException:'0',
-                calcf:null,
-                leyenda:leyenda,
-                usuario:usuarioLogin,
-                codigoDocumentSector:1,
-
-            },
-            detalle:carrito
-        }
-    };
+    
 }
