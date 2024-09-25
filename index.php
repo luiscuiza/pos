@@ -66,6 +66,7 @@ if (isset($_SESSION['user_id'])) {
             '/products/catalog'  => [ProductController::class, 'renderCatalog'],
             '/products/umedsin'  => [ProductController::class, 'renderUMSin'],
 
+            '/sales'             => [SaleController::class, 'renderSales'],
             '/sales/emit'        => [SaleController::class, 'renderEmit'],
 
             '/cufd/info'         => [CufdController::class, 'info'],

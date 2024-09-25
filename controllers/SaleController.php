@@ -2,6 +2,15 @@
 
 class SaleController {
 
+    static public function renderSales() {
+        $sales = SaleModel::alls();
+        $data = [
+            'title' => 'POS - Facturas',
+            'sales' => $sales
+        ];
+        TemplateController::render('./views/sales/list.php', './views/layout/sidebar.php', $data);
+    }
+
     static public function renderEmit() {
         $customers = CustomerModel::alls();
         $nFactura = FacturaModel::getNumFactura();

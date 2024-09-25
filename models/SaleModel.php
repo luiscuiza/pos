@@ -3,7 +3,14 @@
 class SaleModel {
 
     static public function alls() {
-        return [];
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->query("SELECT id_factura, codigo_factura, razon_social_cliente, fecha_emicion, total, estado_factura FROM factura JOIN cliente ON cliente.id_cliente = factura.id_cliente;");
+            $sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $sales;
+        } catch (PDOException $e) {
+            return false;
+        }
     }
 
 

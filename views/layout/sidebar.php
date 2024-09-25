@@ -118,6 +118,12 @@
                                     <span>Emitir Factura</span>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a href="/sales" class="nav-link">
+                                    <i class="fas fa-list" style="margin-right: 4px;"></i>
+                                    <span>Lista de Facturas</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
