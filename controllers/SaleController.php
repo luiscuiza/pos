@@ -74,4 +74,23 @@ class SaleController {
         }
     }
     
+    static public function removeSale() {
+        $id = $_POST['id'] ?? null;
+        $cuf = $_POST['cuf'] ?? null;
+        
+        if (empty($cuf) || empty($id)) {
+            echo json_encode(["status" => "ERROR", "message" => "El CUF de la factura es requerido."]);
+            return;
+        }
+        try {
+            $result = SIATController::anularFactura($cuf);
+            if($result['success']) {
+                echo json_encode(["status" => "ERROR", "message" => $result['message'], "data" => $result["data"]]);
+            } else {
+                echo json_encode(["status" => "ERROR", "message" => $result['message']]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["status" => "ERROR", "message" => "Error al anular la factura: " . $e->getMessage()]);
+        }
+    }
 }

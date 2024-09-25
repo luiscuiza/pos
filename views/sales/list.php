@@ -50,8 +50,8 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" onclick="showForm('sales', 'view', <?= htmlspecialchars($sale['id_factura']) ?>)"><i class="fas fa-eye"></i></a>    
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('sales',<?= htmlspecialchars($sale['id_factura']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" onclick="showForm('sales', 'view', {'id':<?= $sale['id_factura'] ?>})"><i class="fas fa-eye"></i></a>    
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('sales',{'id': <?= $sale['id_factura'] ?>, 'cuf':'<?= $sale['cuf'] ?>'})"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

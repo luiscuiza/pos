@@ -326,7 +326,7 @@ class SIATController {
             if (!$resp) {
                 throw new Exception('No se pudo obtener una respuesta valida...');
             }
-            if (!$resp['codigoResultado'] != 908) {
+            if ($resp['codigoResultado'] == 908) {
                 $codigoResultado = $resp['codigoResultado'] ?? null;
                 $codigoRecepcion = $resp['codigoReceptcion'] ?? null;
                 $cuf = $resp['datoAdicional']['cuf'] ?? null;
@@ -374,5 +374,78 @@ class SIATController {
             ];
         }
     }
+
+    static public function anularFactura($cuf) {
+        global $env;
+        try {
+            $url = "http://localhost:5000/api/CompraVenta/anulacion";
+
+            $nit         = $env->get('nit');
+            $cuis        = $env->get('cuis');
+            $codsys      = $env->get('codsys');
+            $cufd        = $_SESSION['cufd'] ?? null;
+    
+            if (empty($nit) || empty($cuis) || empty($codsys) || empty($cufd)) {
+                throw new Exception('No se pudo leer los datos del emisor.' . $cufd);
+            }
+
+            $data = json_encode([
+                'codigoAmbiente' => 2,
+                'codigoPuntoVenta' => 0,
+                'codigoPuntoVentaSpecified' => true,
+                'codigoSistema' => $codsys,
+                'codigoSucursal' => 0,
+                'nit' => $nit,
+                'codigoDocumentoSector' => 1,
+                'codigoEmision' => 1,
+                'codigoModalidad' => 2,
+                'cufd' => $cufd,
+                'cuis' => $cuis,
+                'tipoFacturaDocumento' => 1,
+                'codigoMotivo' => 1,
+                'cuf' => $cuf
+            ]);
+            
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json'
+            ));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            $response = curl_exec($ch);
+            if (curl_errno($ch)) {
+                curl_close($ch);
+                throw new Exception('No se pudo establecer la conexion...');
+                
+            }
+            curl_close($ch);
+            $resp = json_decode($response, true);
+            if (!$resp) {
+                throw new Exception('No se pudo obtener una respuesta valida...');
+            }
+            if ($resp['codigoEstado'] == 905) {
+                if(SaleModel::changeStatus($cuf, false)) {
+                    return [
+                        'success' => true,
+                        'message' => 'Anulacion Exitosa'
+                    ];
+                } else {
+                    throw new Exception('Anulacion fallida, nos se pudo cambiar el estado');
+                }
+            } else {
+                throw new Exception('Anulacion rechazada [' . $resp['codigoEstado'] . ']');
+            }
+        } catch(Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
 }
 

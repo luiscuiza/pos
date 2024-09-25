@@ -102,6 +102,7 @@ if (isset($_SESSION['user_id'])) {
             '/cart/remove'       => [CartController::class, 'removeProduct'],
 
             '/sales/emit'        => [SaleController::class, 'emitSale'],
+            '/sales/remove'      => [SaleController::class, 'removeSale'],
         ]
     ]; 
 

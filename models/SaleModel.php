@@ -5,7 +5,7 @@ class SaleModel {
     static public function alls() {
         try {
             $pdo = Connection::connect();
-            $stmt = $pdo->query("SELECT id_factura, codigo_factura, razon_social_cliente, fecha_emicion, total, estado_factura FROM factura JOIN cliente ON cliente.id_cliente = factura.id_cliente;");
+            $stmt = $pdo->query("SELECT id_factura, cuf, codigo_factura, razon_social_cliente, fecha_emicion, total, estado_factura FROM factura JOIN cliente ON cliente.id_cliente = factura.id_cliente;");
             $sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $sales;
         } catch (PDOException $e) {
@@ -74,4 +74,17 @@ class SaleModel {
         }
     }
 
+    static public function changeStatus($cuf, $status = false) {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("UPDATE factura SET estado_factura = :status WHERE cuf = :cuf");
+            $stmt->bindParam(':status', $status, PDO::PARAM_BOOL);
+            $stmt->bindParam(':cuf', $cuf, PDO::PARAM_STR);
+            $success = $stmt->execute();
+            $stmt->closeCursor();
+            return $success;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }

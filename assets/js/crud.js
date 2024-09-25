@@ -80,14 +80,14 @@ function deleteRecord(path, args={}) {
                 url: `/${path}/remove`,
                 method: 'POST',
                 data: args,
+                dataType: "json",
                 success: function(response) {
-                    var result = JSON.parse(response);
-                    if (result.status === 'OK') {
+                    if (response.status === 'OK') {
                         Swal.fire({
 							timer: 2500,
                             icon: 'success',
                             title: 'Eliminado',
-                            text: result.message,
+                            text: response.message,
                         }).then(function() {
                             location.reload();
                         });
@@ -96,7 +96,7 @@ function deleteRecord(path, args={}) {
 							timer: 2500,
                             icon: 'error',
                             title: 'Error',
-                            text: result.message,
+                            text: response.message,
                         });
                     }
                 },
