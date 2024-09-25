@@ -12,6 +12,7 @@ function searchCustomer() {
             contentType: 'application/json',
             success: function(response) {
                 if(response.data) {
+                    document.getElementById('idCliente').value = response.data.id_cliente;
                     document.getElementById('rsCliente').value = response.data.razon_social_cliente;
                     document.getElementById('emailCliente').value = response.data.email_cliente;
                 }
@@ -150,7 +151,7 @@ function limpiarCarrito() {
         dataType: "json",
         contentType: 'application/json'        
     }).always(function() {
-        window.location.reload();
+        location.reload();
     });;
 }
 
@@ -171,4 +172,73 @@ function prevTotal() {
 
 function emitirFactura() {
     
+    function validarFactura() {
+        let numFactura = document.getElementById('numFactura').value.trim();
+        let nitCliente = document.getElementById('nitCliente').value.trim();
+        let emailCliente = document.getElementById('emailCliente').value.trim();
+        let rsCliente = document.getElementById('rsCliente').value.trim();
+        let idCliente = document.getElementById('idCliente').value.trim();
+        if (!numFactura || isNaN(numFactura) || !nitCliente || isNaN(nitCliente) || !emailCliente || !rsCliente || !idCliente) {
+            return false;
+        }
+        return true;
+    }
+
+    if(!validarFactura()) {
+        Swal.fire({
+            timer: 3000,
+            icon: 'warning',
+            title: 'Factura',
+            text: 'Asegurese de llenar todos los campos faltantes!',
+        });
+        return;
+    }
+
+    let data = {
+        'fechaFactura': new Date().toISOString(),
+        'idCliente': parseInt(document.getElementById('idCliente').value), 
+        'numFactura': parseInt(document.getElementById('numFactura').value), 
+        'rsCliente': document.getElementById('rsCliente').value,
+        'tpDocumento': parseInt(document.getElementById('tpDocumento').value), 
+        'nitCliente': document.getElementById('nitCliente').value,
+        'metPago': parseInt(document.getElementById('metPago').value),
+        'actEconomica': document.getElementById('actEconomica').value,
+        'emailCliente': document.getElementById('emailCliente').value,
+        'leyenda':leyenda
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/sales/emit',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        dataType: 'json',
+        success: function(response) {
+            if (response.success) {
+                Swal.fire({
+                    timer: 2500,
+                    icon: 'success',
+                    title: 'Factura',
+                    text: 'La factura se registro correctamente'
+                }).then(function() {
+                    location.reload();
+                });
+            } else {
+                Swal.fire({
+                    timer: 3000,
+                    icon: 'error',
+                    title: 'Error de conexión',
+                    text: response.message,
+                });                
+            }
+        },
+        error: function(jqXHR, textStatus, errorThrown) {
+            Swal.fire({
+                timer: 3000,
+                icon: 'error',
+                title: 'Error de conexión',
+                text: `No se pudo emitir la factura: ${textStatus} - ${errorThrown}`,
+            });
+        }
+    });
 }

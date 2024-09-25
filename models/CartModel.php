@@ -65,8 +65,9 @@ class CartModel {
                     'precioUnitario' => $precio,
                     'montoDescuento' => $descuento,
                     'descripcion' => $data['descripcion'],
-                    'unidadMedida' => $data['unidadMedida'],
-                    'unidadMedidaSin' => $data['unidadMedidaSin'],
+                    'unidadMedida' => $data['unidadMedidaSin'],
+                    //'unidadMedida' => $data['unidadMedida'],
+                    //'unidadMedidaSin' => $data['unidadMedidaSin'],
                     'cantidad' => $cantidad,
                     'subTotal' => ($cantidad * $precio) - $descuento
                 ];

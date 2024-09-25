@@ -230,5 +230,149 @@ class SIATController {
         }
     }
 
+    static public function emitirFactura($client, $cart, $totales) {
+        global $env;
+        try {
+            $url = "http://localhost:5000/api/CompraVenta/recepcion";
+
+            $nit         = $env->get('nit');
+            $cuis        = $env->get('cuis');
+            $phone       = $env->get('phone');
+            $codsys      = $env->get('codsys');
+            $address     = $env->get('address');
+            $razonsocial = $env->get('razonsocial');
+            $user        = $_SESSION['user'] ?? null;
+            $cufd        = $_SESSION['cufd'] ?? null;
+            $userID      = $_SESSION['user_id'] ?? null;
+            $cufdControl = $_SESSION['cufdControl'] ?? null;
+    
+            if (empty($nit) || empty($cuis) || empty($phone) || empty($codsys) || empty($address) || 
+                empty($razonsocial) || empty($user) || empty($cufd) || empty($cufdControl) || empty($userID)) {
+                throw new Exception('No se pudo leer los datos del emisor.');
+            }
+
+            $data = json_encode([
+                "codigoAmbiente" => 2,
+                "codigoDocumentSector" => 1,
+                "codigoEmision" => 1,
+                "codigoModalidad" => 2,
+                "codigoPuntoVenta" => 0,
+                "codigoPuntoVentaSpecified" => true,
+                "codigoSistema" => $codsys,
+                "codigoSucursal" => 0,
+                "cufd" => $cufd,
+                "cuis" => $cuis,
+                "nit" => 338794023,
+                "tipoFacturaDocumento" => 1,
+                "archivo" => null,
+                "fechaEnvio" => $client['fecha'],
+                "hashArchivo" => "",
+                "codigoControl" => $cufdControl,
+                "factura" => [
+                    "cabecera" => [
+                        "nitEmisor" => $nit,
+                        "razonSocialEmisor" => $razonsocial,
+                        "municipio" => "Santa Cruz",
+                        "telefono" => $phone,
+                        "numeroFactura" => $client['nFact'],
+                        "cuf" => "String",
+                        "cufd" => "$cufd",
+                        "codigoSucursal" => 0,
+                        "direccion" => $address,
+                        "codigoPuntoVenta" => 0,
+                        "fechaEmision" => $client['fecha'],
+                        "nombreRazonSocial" => $client['rsCliente'],
+                        "codigoTipoDocumentoIdentidad" => 1,
+                        "numeroDocumento" => $client['nitCliente'],
+                        "complemento" => "",
+                        "codigoCliente" => $client['nitCliente'],
+                        "codigoMetodoPago" => $client['metPago'],
+                        "numeroTarjeta" => null,
+                        "montoTotal" => $totales['neto'],
+                        "montoTotalSujetoIva" => $totales['total'],
+                        "codigoMoneda" => 1,
+                        "tipoCambio" => 1,
+                        "montoTotalMoneda" => $totales['total'],
+                        "montoGiftCard" => 0,
+                        "descuentoAdicional" => $totales['descuento'],
+                        "codigoExcepcion" => 0,
+                        "cafc" => null,
+                        "leyenda" => $client['leyenda'],
+                        "usuario" => $user,
+                        "codigoDocumentoSector" => 1
+                    ],
+                    "detalle" => $cart,
+                ]
+            ]);
+    
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_POST, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+                'Content-Type: application/json'
+            ));
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+            $response = curl_exec($ch);
+            if (curl_errno($ch)) {
+                curl_close($ch);
+                throw new Exception('No se pudo establecer la conexion...');
+                
+            }
+            curl_close($ch);
+            $resp = json_decode($response, true);
+            if (!$resp) {
+                throw new Exception('No se pudo obtener una respuesta valida...');
+            }
+            if (!$resp['codigoResultado'] != 908) {
+                $codigoResultado = $resp['codigoResultado'] ?? null;
+                $codigoRecepcion = $resp['codigoReceptcion'] ?? null;
+                $cuf = $resp['datoAdicional']['cuf'] ?? null;
+                $sentDate = $resp['datoAdicional']['sentDate'] ?? null;
+                $xml = $resp['datoAdicional']['xml'] ?? null;
+
+                if(!isset($xml, $cuf, $sentDate, $codigoRecepcion, $codigoResultado)) {
+                    throw new Exception('No se pudo obtener los datos de la respuesta...');
+                }
+
+                $date = (new DateTime($sentDate))->format('Y-m-d H:i:s');
+
+                if(SaleModel::add([
+                    'cod_factura' => $client['nFact'],
+                    'id_cliente' => $client['idCliente'],
+                    'detalle' => json_encode($cart),
+                    'neto' => $totales['neto'],
+                    'descuento' => $totales['descuento'],
+                    'total' => $totales['total'],
+                    'fecha_emision' => $date,
+                    'cufd' => $cufd,
+                    'cuf' => $cuf,
+                    'xml' => $xml,
+                    'id_punto_venta' => 0,
+                    'id_usuario' => $userID,
+                    'usuario' => $user,
+                    'leyenda' => $client['leyenda']
+                ])) {
+                    CartModel::clear();
+                    echo json_encode([
+                        'success' => true,
+                        'message' => 'Factura emitida correctamente.'
+                    ]);   
+                } else {
+                    throw new Exception('Ocurrio un error al guardar la factura.');
+                }
+            } else {
+                $message = $resp['datoAdicional'][0]['descripcion'] ?? 'Ocurrio un error en la consulta...';
+                throw new Exception($message);
+            }
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'message' => $e->getMessage()
+            ];
+        }
+    }
 }
 
