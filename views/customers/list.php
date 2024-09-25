@@ -51,8 +51,8 @@
                                             <td><?= htmlspecialchars($customer['email_cliente']) ?></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('customers','edit',<?= htmlspecialchars($customer['id_cliente']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('customers',<?= htmlspecialchars($customer['id_cliente']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('customers','edit',{'id':<?= $customer['id_cliente'] ?>})"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('customers',{'id':<?= $customer['id_cliente'] ?>})"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

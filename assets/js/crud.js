@@ -1,7 +1,7 @@
 
-function showForm(path, action, id = null) {
+function showForm(path, action, args={}) {
     let url = `/${path}/${action}`;
-    let data = id ? { id: id } : {};
+    let data = args;
     $.ajax({
         url: url,
         method: 'GET',
@@ -64,7 +64,7 @@ function saveRecord(path, action, formId) {
     });
 }
 
-function deleteRecord(path, id) {
+function deleteRecord(path, args={}) {
     Swal.fire({
         title: '¿Estás seguro?',
         text: "No podrás revertir esto",
@@ -79,7 +79,7 @@ function deleteRecord(path, id) {
             $.ajax({
                 url: `/${path}/remove`,
                 method: 'POST',
-                data: { id: id },
+                data: args,
                 success: function(response) {
                     var result = JSON.parse(response);
                     if (result.status === 'OK') {

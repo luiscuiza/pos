@@ -54,8 +54,8 @@
                                             <td><?= htmlspecialchars($user['fecha_registro']) ?></td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('users','edit',<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('users',<?= htmlspecialchars($user['id_usuario']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" style="padding-right: 8px;" onclick="showForm('users','edit', {'id':<?= $user['id_usuario'] ?>})"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('users',{'id':<?= $user['id_usuario'] ?>})"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

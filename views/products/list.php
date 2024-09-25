@@ -57,9 +57,9 @@
                                             </td>
                                             <td>
                                                 <div class="btn-group" role="group">
-                                                    <a class="btn edit btn-dark rounded-left" onclick="showForm('products', 'view', <?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-eye"></i></a>    
-                                                    <a class="btn edit btn-dark" style="padding-right: 8px;" onclick="showForm('products','edit',<?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-edit"></i></a>
-                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',<?= htmlspecialchars($product['id_producto']) ?>)"><i class="fas fa-trash"></i></a>
+                                                    <a class="btn edit btn-dark rounded-left" onclick="showForm('products', 'view', {'id':<?= $product['id_producto'] ?>})"><i class="fas fa-eye"></i></a>    
+                                                    <a class="btn edit btn-dark" style="padding-right: 8px;" onclick="showForm('products','edit', {'id':<?= $product['id_producto'] ?>})"><i class="fas fa-edit"></i></a>
+                                                    <a class="btn remove btn-dark rounded-right" onclick="deleteRecord('products',{'id':<?= $product['id_producto'] ?>})"><i class="fas fa-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
