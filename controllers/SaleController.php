@@ -27,6 +27,18 @@ class SaleController {
         TemplateController::render('./views/sales/emit.php', './views/layout/sidebar.php', $data);
     }
 
+    public static function renderViewForm() {
+        $saleId = $_GET['id'] ?? null;
+        if (!$saleId) {
+            return;
+        }
+        $sale = SaleModel::getById($saleId);
+        if (!$sale) {
+            return;
+        }
+        include 'views/sales/formView.php';
+    }
+
     static public function emitSale() {
         try {
             $data = json_decode(file_get_contents('php://input'), true);

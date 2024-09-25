@@ -13,6 +13,19 @@ class SaleModel {
         }
     }
 
+    static public function getById($saleID) {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("SELECT * FROM factura JOIN cliente ON cliente.id_cliente = factura.id_cliente WHERE id_factura= :id;");
+            $stmt->bindParam(':id', $saleID, PDO::PARAM_INT);
+            $sale = $stmt->execute();
+            $sale = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $sale ? $sale : null;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 
     static public function add($data) {
         try {
