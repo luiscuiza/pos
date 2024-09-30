@@ -27,6 +27,20 @@ class SaleController {
         TemplateController::render('./views/sales/emit.php', './views/layout/sidebar.php', $data);
     }
 
+    static public function renderPrint() {
+        $facturaID = $_GET['id'] ?? null;
+        if (!$facturaID) {
+            ErrorController::render(400,'Parámetro Inválido: No se puede imprimir la factura.');
+            exit;
+        }
+        $factura = SaleModel::getById($facturaID);
+        $data = [
+            'title' => 'POS - Facturas',
+            'factura' => $factura
+        ];
+        TemplateController::render('./views/sales/print.php', null, $data);
+    }
+
     public static function renderViewForm() {
         $saleId = $_GET['id'] ?? null;
         if (!$saleId) {

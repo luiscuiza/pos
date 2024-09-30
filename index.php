@@ -69,6 +69,7 @@ if (isset($_SESSION['user_id'])) {
             '/sales'             => [SaleController::class, 'renderSales'],
             '/sales/emit'        => [SaleController::class, 'renderEmit'],
             '/sales/view'        => [SaleController::class, 'renderViewForm'],
+            '/sales/print'       => [SaleController::class, 'renderPrint'],
 
             '/cufd/info'         => [CufdController::class, 'info'],
 
