@@ -13,7 +13,7 @@ class SaleController {
 
     static public function renderEmit() {
         $customers = CustomerModel::alls();
-        $nFactura = FacturaModel::getNumFactura();
+        $nFactura = SaleModel::getNumSale();
         $productos = ProductModel::alls();
         $cart = CartModel::get();
         $data = [
@@ -85,7 +85,7 @@ class SaleController {
         try {
             $result = SIATController::anularFactura($cuf);
             if($result['success']) {
-                echo json_encode(["status" => "ERROR", "message" => $result['message'], "data" => $result["data"]]);
+                echo json_encode(["status" => "OK", "message" => $result['message']]);
             } else {
                 echo json_encode(["status" => "ERROR", "message" => $result['message']]);
             }

@@ -1,2 +1,5 @@
+pos.log
+test.php
+
 /uploads/products/*
 !/uploads/products/.gitkeep

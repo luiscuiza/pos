@@ -63,8 +63,8 @@
                                     <div class="form-group col-md-6">
                                         <label for="tpDocumento">Tipo de Documento</label>
                                         <select name="tpDocumento" id="tpDocumento" class="form-control">
-                                            <option value="1">Ninguno</option>
-                                            <option value="1">Cedula de Identidad</option>
+                                            <option value="0">Ninguno</option>
+                                            <option value="1" selected>Cedula de Identidad</option>
                                             <option value="5">NIT</option>
                                         </select>
                                     </div>
@@ -135,7 +135,7 @@
                                     <div class="form-group col-12">
                                         <label for="metPago">Metodo de Pago</label>
                                         <select name="metPago" id="metPago" class="form-control">
-                                            <option value="1">Efectivo</option>
+                                            <option value="1" selected>Efectivo</option>
                                         </select>
                                     </div>
                                 </div>

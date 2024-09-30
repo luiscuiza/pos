@@ -1,5 +1,6 @@
 <?php
 
+require_once 'helpers/log.php';
 require_once 'helpers/env.php';
 require_once 'helpers/sessions.php';
 
@@ -8,7 +9,6 @@ require_once 'models/UserModel.php';
 require_once 'models/CustomerModel.php';
 require_once 'models/ProductModel.php';
 require_once 'models/SaleModel.php';
-require_once 'models/FacturaModel.php';
 require_once 'models/CufdModel.php';
 require_once 'models/LeyendaModel.php';
 require_once 'models/CartModel.php';

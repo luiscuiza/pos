@@ -173,12 +173,16 @@ function prevTotal() {
 function emitirFactura() {
     
     function validarFactura() {
-        let numFactura = document.getElementById('numFactura').value.trim();
-        let nitCliente = document.getElementById('nitCliente').value.trim();
-        let emailCliente = document.getElementById('emailCliente').value.trim();
-        let rsCliente = document.getElementById('rsCliente').value.trim();
-        let idCliente = document.getElementById('idCliente').value.trim();
-        if (!numFactura || isNaN(numFactura) || !nitCliente || isNaN(nitCliente) || !emailCliente || !rsCliente || !idCliente) {
+        let numFactura = document.getElementById('numFactura').value;
+        let nitCliente = document.getElementById('nitCliente').value;
+        let emailCliente = document.getElementById('emailCliente').value;
+        let rsCliente = document.getElementById('rsCliente').value;
+        let idCliente = document.getElementById('idCliente').value;
+        let tpDocumento =  document.getElementById('tpDocumento').value;
+        if (!numFactura || isNaN(numFactura) || !nitCliente || isNaN(nitCliente) || !emailCliente || !rsCliente || !idCliente || !tpDocumento) {
+            return false;
+        }
+        if (document.querySelector('#listaDetalle td[colspan="6"]') || document.getElementById('listaDetalle').rows.length == 0) {
             return false;
         }
         return true;

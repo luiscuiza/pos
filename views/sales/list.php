@@ -39,13 +39,13 @@
                                         <tr>
                                             <td><?= htmlspecialchars($sale['codigo_factura']) ?></td>
                                             <td><?= htmlspecialchars($sale['razon_social_cliente']) ?></td>
-                                            <td><?= htmlspecialchars($sale['fecha_emicion']) ?></td>
+                                            <td><?= htmlspecialchars($sale['fecha_emision']) ?></td>
                                             <td><?= htmlspecialchars($sale['total']) ?></td>
                                             <td>
                                                 <?php if ($sale['estado_factura']): ?>
-                                                    <span class="badge badge-success">Emitido</span>
+                                                    <span class="badge badge-success">Emitida</span>
                                                 <?php else: ?>
-                                                    <span class="badge badge-danger">Cancelado</span>
+                                                    <span class="badge badge-danger">Anulada</span>
                                                 <?php endif; ?>
                                             </td>
                                             <td>

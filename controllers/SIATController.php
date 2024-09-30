@@ -253,7 +253,7 @@ class SIATController {
 
             $data = json_encode([
                 "codigoAmbiente" => 2,
-                "codigoDocumentSector" => 1,
+                "codigoDocumentoSector" => 1,
                 "codigoEmision" => 1,
                 "codigoModalidad" => 2,
                 "codigoPuntoVenta" => 0,
@@ -326,15 +326,14 @@ class SIATController {
             if (!$resp) {
                 throw new Exception('No se pudo obtener una respuesta valida...');
             }
-            if ($resp['codigoResultado'] == 908) {
-                $codigoResultado = $resp['codigoResultado'] ?? null;
-                $codigoRecepcion = $resp['codigoReceptcion'] ?? null;
+            if (isset($resp['codigoResultado']) && $resp['codigoResultado'] == 908) {
+                $codigoRecepcion = $resp['datoAdicional']['codigoRecepcion'] ?? null;
                 $cuf = $resp['datoAdicional']['cuf'] ?? null;
                 $sentDate = $resp['datoAdicional']['sentDate'] ?? null;
                 $xml = $resp['datoAdicional']['xml'] ?? null;
 
-                if(!isset($xml, $cuf, $sentDate, $codigoRecepcion, $codigoResultado)) {
-                    throw new Exception('No se pudo obtener los datos de la respuesta...');
+                if(!isset($xml, $cuf, $sentDate, $codigoRecepcion)) {
+                    throw new Exception("No se pudo obtener los datos de la respuesta...");
                 }
 
                 $date = (new DateTime($sentDate))->format('Y-m-d H:i:s');
@@ -356,12 +355,12 @@ class SIATController {
                     'leyenda' => $client['leyenda']
                 ])) {
                     CartModel::clear();
-                    echo json_encode([
+                    return [
                         'success' => true,
                         'message' => 'Factura emitida correctamente.'
-                    ]);   
+                    ];
                 } else {
-                    throw new Exception('Ocurrio un error al guardar la factura.');
+                    throw new Exception('Ocurrio un error al guardar la factura.' . error_get_last());
                 }
             } else {
                 $message = $resp['datoAdicional'][0]['descripcion'] ?? 'Ocurrio un error en la consulta...';
@@ -420,7 +419,6 @@ class SIATController {
             if (curl_errno($ch)) {
                 curl_close($ch);
                 throw new Exception('No se pudo establecer la conexion...');
-                
             }
             curl_close($ch);
             $resp = json_decode($response, true);
@@ -437,7 +435,7 @@ class SIATController {
                     throw new Exception('Anulacion fallida, nos se pudo cambiar el estado');
                 }
             } else {
-                throw new Exception('Anulacion rechazada [' . $resp['codigoEstado'] . ']');
+                throw new Exception('Anulacion rechazada.');
             }
         } catch(Exception $e) {
             return [

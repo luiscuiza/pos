@@ -28,11 +28,11 @@
                         </tr>
                         <tr>
                             <th>Fecha</th>
-                            <td><?= $sale['fecha_emicion'] ?></td>
+                            <td><?= $sale['fecha_emision'] ?></td>
                         </tr>
                         <tr>
                             <th>Emitido por</th>
-                            <td><?= $sale['usario'] ?></td>
+                            <td><?= $sale['usuario'] ?></td>
                         </tr>
                         <tr>
                             <th>Estado</th>
