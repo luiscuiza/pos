@@ -1,5 +1,6 @@
 pos.log
 test.php
+httpd-vhosts.conf
 
 /uploads/products/*
 !/uploads/products/.gitkeep
