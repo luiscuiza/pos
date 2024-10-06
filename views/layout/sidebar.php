@@ -31,7 +31,7 @@
         </ul>
     </nav>
     <aside class="main-sidebar sidebar-dark-primary elevation-4">
-        <a href="#" class="brand-link">
+        <a href="/" class="brand-link">
             <img src="/assets/dist/img/Logo_POS.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" >
             <span class="brand-text font-weight-light" style="font-size: 25px;">Sistema POS</span>
         </a>

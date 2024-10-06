@@ -103,4 +103,17 @@ class UserModel {
             throw new Exception("Error al actualizar el usuario: " . $e->getMessage());
         }
     }
+
+    static public function count() {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("SELECT COUNT(*) as count FROM usuario;");
+            $stmt->execute();
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $count ? $count : null;
+        } catch (Exception $e) {
+            throw new Exception("Error al obtener los datos del usuario: " . $e->getMessage());
+        }
+    }
 }

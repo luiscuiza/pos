@@ -102,4 +102,43 @@ class SaleModel {
         }
     }
 
+    static public function count() {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("
+                SELECT 
+                    COUNT(*) AS todos,
+                    COUNT(CASE WHEN estado_factura = 0 THEN 1 END) AS anulados,
+                    COUNT(CASE WHEN estado_factura = 1 THEN 1 END) AS emitidos
+                FROM 
+                    factura;");
+            $stmt->execute();
+            $count = $stmt->fetch(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $count ? $count : null;
+        } catch (Exception $e) {
+            throw new Exception("Error al obtener los datos del usuario: " . $e->getMessage());
+        }
+    }
+
+    static public function data($fromDate, $toDate) {
+        try {
+            $pdo = Connection::connect();
+            $stmt = $pdo->prepare("
+                SELECT total, fecha_emision as fecha FROM factura
+                WHERE estado_factura = 1
+                AND DATE(fecha_emision) BETWEEN :fromdate AND :todate
+            ");
+            $stmt->bindParam(':fromdate', $fromDate);
+            $stmt->bindParam(':todate', $toDate);
+            $stmt->execute();
+            $sales = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $stmt->closeCursor();
+            return $sales ? $sales : [];
+        } catch (Exception $e) {
+            throw new Exception("Error al obtener los datos de la factura: " . $e->getMessage());
+        }
+    }
+
 }
+

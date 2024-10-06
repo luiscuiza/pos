@@ -104,6 +104,7 @@ if (isset($_SESSION['user_id'])) {
 
             '/sales/emit'        => [SaleController::class, 'emitSale'],
             '/sales/remove'      => [SaleController::class, 'removeSale'],
+            '/sales/data'        => [SaleController::class, 'data'],
         ]
     ]; 
 

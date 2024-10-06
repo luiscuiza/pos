@@ -107,4 +107,24 @@ class SaleController {
             echo json_encode(["status" => "ERROR", "message" => "Error al anular la factura: " . $e->getMessage()]);
         }
     }
+
+    static public function data() {
+        try {
+            $data = json_decode(file_get_contents('php://input'), true);
+            if (!$data || !isset($data['fromDate'], $data['toDate'])) {
+                throw new Exception('Faltan algunos datos de la factura.');
+            }
+            $sales = SaleModel::data($data['fromDate'], $data['toDate']);
+            echo json_encode(
+                [
+                    'success' => true,
+                    'data' => $sales
+                ]);
+        } catch (Exception $e) {
+            echo json_encode([
+                'success' => false,
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
 }
